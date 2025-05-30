@@ -1,0 +1,452 @@
+/* 基础样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.video-background {
+    position: fixed;
+    top: -12.5%;
+    left: -12.5%;
+    min-width: 125%;
+    min-height: 125%;
+    z-index: -1;
+
+    transition: transform 0.5s ease-out;
+    will-change: transform;
+}
+
+.shadow {
+    border-radius: 0 0 0.5rem 0.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+#main-header {
+    position: fixed;
+    width: 100%;
+    background-color: #ffffff80;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 50;
+    display: flex;
+
+    margin: auto;
+    padding: 10px 8rem;
+    transition: color 0.2s;
+
+    backdrop-filter: blur(10px);
+}
+
+.header-title {
+    color: inherit;
+    font-weight: bold;
+    font-size: 24px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.header-title:hover {
+    color: #3B82F6;
+}
+
+.header-nav {
+    display: flex;
+    list-style: none;
+}
+
+.header-goto {
+    color: inherit;
+    font-size: 18px;
+    text-decoration: none;
+    align-items: center;
+    margin-left: 1.5rem;
+    transition: color 0.2s;
+}
+
+.header-goto:hover {
+    color: #3B82F6;
+}
+
+#home {
+    background-color: #f0f2f500;
+    text-align: center;
+    padding-top: 100px;
+    padding-bottom: 200px;
+
+    backdrop-filter: none;
+    transition: 250ms;
+}
+
+.home-container {
+    padding-top: 8rem;
+    padding-bottom: 0;
+}
+
+.avatar-container {
+    margin-bottom: 20px;
+}
+
+.avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#about {
+    background-color: white;
+    padding: 5rem;
+
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+}
+
+.about-edu {
+    list-style-type: decimal;
+    padding-left: 1.25rem;
+    font-size: 1.125rem;
+    line-height: 2rem;
+}
+
+.about-edu > * + * {
+    margin-top: 0.5rem;
+}
+
+#skills {
+    background-color: #f0f2f5;
+    padding: 5rem;
+}
+
+.skills-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: -1rem;
+    column-gap: 2rem;
+
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.skill-entry {
+    font-size: 20px;
+    padding-bottom: 4px;
+}
+
+.skill-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: -4px;
+}
+
+.skill-content {
+    margin-left: -16px
+}
+
+.skill-card {
+    background-color: #ffffff;
+    padding-left: 2rem;
+    padding-top: 4px;
+    padding-bottom: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+
+}
+
+.skill-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.skill-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #1a73e8;
+}
+
+/* 作品集样式 */
+#projects {
+    background-color: white;
+    padding: 5rem;
+}
+
+.projects-list-container {
+    overflow-x: auto;
+    margin-bottom: 4rem
+}
+
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+}
+
+/* 项目卡片容器 */
+.project-card {
+    background-color: white;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.card-image-container {
+    position: relative;
+    overflow: hidden;
+    height: 16rem;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.project-card:hover .card-image {
+    transform: scale(1.1);
+}
+
+/* 图片上的遮罩层 */
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-card:hover .image-overlay {
+    opacity: 1;
+}
+
+.view-details-btn {
+    background-color: white;
+    border: none;
+    color: #3B82F6;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    transform: translateY(1rem);
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover .view-details-btn {
+    transform: translateY(0);
+}
+
+/* 卡片内容区域 */
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.card-description {
+    color: #6B7280;
+    margin-bottom: 1rem;
+}
+
+/* 标签样式 */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* 底部信息 */
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.date {
+    color: #9CA3AF;
+    font-size: 0.75rem;
+}
+
+.view-project {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.view-project:hover {
+    color: #3B82F6;
+    text-decoration: underline;
+}
+
+.arrow-icon {
+    margin-left: 0.25rem;
+}
+
+#audio-works {
+    background-color: #f0f2f5;
+    padding: 5rem;
+}
+
+.audio-container {
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.audio-picture-container {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-right: 1rem;
+}
+
+.audio-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#contact {
+    margin-left: 20rem;
+    margin-right: 20rem;
+    margin-bottom: 10rem;
+}
+
+/* 表单容器 */
+.contact-form {
+    background-color: #ffffffff;
+    padding: 4rem 6rem;
+
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 网格布局 */
+.contact-basic-inf {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    column-gap: 4rem;
+}
+
+.contact-types {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 4rem;
+}
+
+/* 标签样式 */
+.label {
+    display: block;
+    color: #4B5563;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+/* 输入框样式 */
+.input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid #D1D5DB;
+    transition: all 0.2s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    border-color: #3B82F6;
+}
+
+/* 复选框样式 */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 0.5rem;
+    accent-color: #3B82F6;
+}
+
+/* 按钮样式 */
+.submit-button {
+    width: 100%;
+    background-color: #3B82F6;
+    color: white;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.submit-button:hover {
+    background-color: #2563EB;
+}
+
+.submit-button i {
+    margin-left: 0.5rem;
+}
+
+/* 间距 */
+.mb-6 {
+    margin-bottom: 1.5rem;
+}

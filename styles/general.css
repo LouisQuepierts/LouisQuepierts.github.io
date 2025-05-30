@@ -1,0 +1,54 @@
+.picture {
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 28rem;
+}
+
+.introduction {
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    color: #697485
+}
+
+.hw {
+    width: 100%;
+    align-content: center;
+
+    @media (min-width: 768px) {
+        width: 50%;
+    }
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid #e2e8f0;
+}
+
+th, td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
+th {
+    background-color: #f1f5f9;
+    font-weight: 600;
+}
+
+tr {
+    transition-property: all;
+    transition-duration: 300ms;
+}
+
+tr:nth-child(even) {
+    background-color: #eff9ff;
+}
+
+tr:hover {
+    background-color: #f9fafb;
+}

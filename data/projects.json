@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "2D平台游戏",
+    "type": "游戏开发",
+    "techStack": "Unity, C#",
+    "status": "已完成",
+    "statusClass": "bg-green-100 text-green-800",
+    "image": "https://picsum.photos/800/500?random=1",
+    "description": "使用Unity引擎开发的2D平台跳跃游戏，包含多种关卡和角色能力。",
+    "tags": ["Unity", "C#", "2D游戏"],
+    "date": "2023年10月"
+  },
+  {
+    "id": 2,
+    "name": "像素风格RPG",
+    "type": "游戏开发",
+    "techStack": "Godot, GDScript",
+    "status": "进行中",
+    "statusClass": "bg-blue-100 text-blue-800",
+    "image": "https://picsum.photos/800/500?random=2",
+    "description": "使用Godot引擎开发的像素风格角色扮演游戏，包含任务系统和角色成长。",
+    "tags": ["Godot", "GDScript", "RPG"],
+    "date": "2024年3月"
+  },
+  {
+    "id": 3,
+    "name": "Minecraft模组",
+    "type": "Mod开发",
+    "techStack": "Java, Forge",
+    "status": "已完成",
+    "statusClass": "bg-green-100 text-green-800",
+    "image": "https://picsum.photos/800/500?random=3",
+    "description": "为Minecraft开发的模组，添加了新的生物、物品和游戏机制。",
+    "tags": ["Java", "Minecraft", "Mod开发"],
+    "date": "2023年6月"
+  }
+]  

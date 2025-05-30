@@ -1,0 +1,54 @@
+.tag-finish {
+    padding: 0.25rem 0.75rem;
+    background-color: #dcfce7;
+    color: #166534;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    transition: background-color 0.2s;
+}
+
+.tag-finish:hover {
+    background-color: #c5fbd7;
+}
+
+.tag-progressing {
+    padding: 0.25rem 0.75rem;
+    background-color: #dbeaff;
+    color: #163e5e;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    transition: background-color 0.2s;
+}
+
+.tag-progressing:hover {
+    background-color: #bfdbfe;
+}
+
+.tag-planned {
+    padding: 0.25rem 0.75rem;
+    background-color: #fff6ce;
+    color: #5e4a16;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    transition: background-color 0.2s;
+}
+
+.tag-planned:hover {
+    background-color: #ffedb5;
+}
+
+.tag-general {
+    padding: 0.25rem 0.75rem;
+    background-color: #F3F4F6;
+    color: #4B5563;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    transition: background-color 0.2s;
+}
+
+.tag-general:hover {
+    background-color: #E5E7EB;
+}
