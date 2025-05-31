@@ -7,20 +7,23 @@
     <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="styles/tags.css">
+    <link rel="stylesheet" href="styles/header.css">
 
     <! -- Font Awesome 非常棒的图标库 -- >
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
     <header id="main-header">
-        <a href="#home" class="header-title">主页</a>
+        <div class="header-container">
+            <a href="#home" class="header-title">主页</a>
 
-        <ul class="header-nav">
-            <li><a href="#about" class="header-goto">关于我</a></li>
-            <li><a href="#skills" class="header-goto">技能</a></li>
-            <li><a href="#projects" class="header-goto">项目</a></li>
-            <li><a href="#contact" class="header-goto">联系我</a></li>
-        </ul>
+            <ul class="header-nav">
+                <li><a href="#about" class="header-goto">关于我</a></li>
+                <li><a href="#skills" class="header-goto">技能</a></li>
+                <li><a href="#projects" class="header-goto">项目</a></li>
+                <li><a href="#contact" class="header-goto">联系我</a></li>
+            </ul>
+        </div>
     </header>
 
     <video class="video-background" id="background" poster="images/background.png" autoplay muted loop>
@@ -273,7 +276,7 @@
             </div>
         </section>
 
-        <section id="contact">
+        <!--<section id="contact">
             <h2>与我联系</h2>
             <div class="container">
                 <form id="contact-form" class="contact-form">
@@ -321,7 +324,7 @@
                     </button>
                 </form>
             </div>
-        </section>
+        </section>-->
 
         <footer>
             <div class="container"> </div>
@@ -329,6 +332,6 @@
     </main>
 </body>
 
-<script src="scripts/index.js"></script>
-<script src="scripts/math.js"></script>
+<script type="module" src="scripts/index.js"></script>
+<script type="module" src="scripts/header.js"></script>
 </html>

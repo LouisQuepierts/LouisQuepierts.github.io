@@ -1,23 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // 跳转
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-
-      const targetId = this.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
-      moveTo(targetElement);
-    });
-  });
-
-  // 表单提交处理
-  const contactForm = document.getElementById('contact-form');
-
-  contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    submitForm(contactForm);
-  });
-});
+import { scrolls } from "./scroll.js";
 
 const background = document.getElementById("background");
 
@@ -34,22 +15,7 @@ document.addEventListener("mousemove", (e) => {
 })
 
 const home = document.getElementById("home");
-
-window.addEventListener("scroll", () => {
-  const scrollY = window.scrollY;
-  const bottom = 20;
-  const top = window.innerHeight;
-
-  if (scrollY < bottom || scrollY > top) {
-    return;
-  }
-
-  const progress = smoothstep(bottom, top, scrollY);
-
-  home.style.backgroundColor = mixRGBA(startColor, endColor, progress);
-  home.style.backdropFilter = `blur(${progress * 10}px)`;
-})
-
+const root  = document.documentElement;
 const startColor = `#ffffff00`;
 const endColor = `#ffffffb0`;
 
@@ -91,11 +57,13 @@ function submitForm(contactForm) {
   }
 }
 
-function moveTo(targetElement) {
-  if (targetElement) {
-    window.scrollTo({
-      top: targetElement.offsetTop - 80,
-      behavior: 'smooth'
-    });
+scrolls.addListener(20, 500, (progress) => {
+  const color = mixRGBA( startColor, endColor, progress);
+  root.style.setProperty('--home-background-color', color);
+
+  if (progress < 1e-6) {
+    root.style.setProperty("--home-background-blur", `none`);
+  } else {
+    root.style.setProperty("--home-background-blur", `blur(${progress * 10}px)`);
   }
-}
+})

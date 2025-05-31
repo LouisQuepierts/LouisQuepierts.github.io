@@ -1,0 +1,51 @@
+:root {
+    --header-border-radius: 0;
+    --header-margin-y: 0;
+    --header-width: 100%;
+}
+
+.header-container {
+    width: 100%;
+    background-color: #ffffff80;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+    display: flex;
+    margin: 0 0;
+    padding: 8px 8rem;
+    border-radius: 0;
+
+    transition: border-radius 1.0s, margin 1.0s ease;
+    backdrop-filter: blur(10px);
+}
+
+.header-title {
+    color: inherit;
+    font-weight: bold;
+    font-size: 24px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.header-title:hover {
+    color: #3B82F6;
+}
+
+.header-nav {
+    display: flex;
+    list-style: none;
+}
+
+.header-goto {
+    color: inherit;
+    font-size: 18px;
+    text-decoration: none;
+    align-items: center;
+    margin-left: 1.5rem;
+    transition: color 0.2s;
+}
+
+.header-goto:hover {
+    color: #3B82F6;
+}

@@ -1,10 +1,14 @@
-/* 基础样式 */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     line-height: 1.6;
     color: #333;
+}
+
+:root {
+    --home-background-color: #f0f2f500;
+    --home-background-blur: none;
 }
 
 .container {
@@ -43,58 +47,18 @@ h3 {
 
 #main-header {
     position: fixed;
+    display: flex;
     width: 100%;
-    background-color: #ffffff80;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     z-index: 50;
-    display: flex;
-
-    margin: auto;
-    padding: 10px 8rem;
-    transition: color 0.2s;
-
-    backdrop-filter: blur(10px);
-}
-
-.header-title {
-    color: inherit;
-    font-weight: bold;
-    font-size: 24px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    transition: color 0.2s;
-}
-
-.header-title:hover {
-    color: #3B82F6;
-}
-
-.header-nav {
-    display: flex;
-    list-style: none;
-}
-
-.header-goto {
-    color: inherit;
-    font-size: 18px;
-    text-decoration: none;
-    align-items: center;
-    margin-left: 1.5rem;
-    transition: color 0.2s;
-}
-
-.header-goto:hover {
-    color: #3B82F6;
 }
 
 #home {
-    background-color: #f0f2f500;
+    background-color: var(--home-background-color);
     text-align: center;
     padding-top: 100px;
     padding-bottom: 200px;
 
-    backdrop-filter: none;
+    backdrop-filter: var(--home-background-blur);
     transition: 250ms;
 }
 
