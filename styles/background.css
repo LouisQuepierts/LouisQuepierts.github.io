@@ -1,0 +1,12 @@
+#background {
+    position: fixed;
+    top: -12.5%;
+    left: -12.5%;
+    min-width: 125%;
+    min-height: 125%;
+    z-index: -1;
+    object-fit: cover;
+
+    transition: transform 0.5s ease-out;
+    will-change: transform;
+}

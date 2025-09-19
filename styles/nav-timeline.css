@@ -1,0 +1,99 @@
+:root {
+    --background-mask-color: #00000033;
+    --timeline-track-color: #513f34;
+}
+
+.nav-timeline {
+    position: fixed;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+
+    background-color: #00000000;
+    opacity: 0.5;
+    padding: 1.5rem 0.8rem;
+    border-radius: 30px;
+    backdrop-filter: blur(4px);
+    transition: opacity 0.5s ease-out, background-color 0.5s ease-out;
+
+    &:hover,
+    &.hover {
+        opacity: 1.0;
+        background-color: var(--background-mask-color);
+    }
+
+    &.pressed {
+        opacity: 1.0;
+        background-color: var(--background-mask-color);
+    }
+
+    .track {
+        position: absolute;
+        height: calc(100% - 3rem);
+        width: 2px;
+        background-color: #513f34;
+    }
+
+    .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #513f34;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+
+        &:hover {
+            background-color: #e49c6f;
+        }
+    }
+}
+
+.nav-pointer {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #f4c29e;
+    cursor: pointer;
+    transform: scale(1.25);
+    position: fixed;
+    z-index: 11;
+
+    &:hover {
+        background-color: #f4c29e;
+        transform: scale(1.5);
+    }
+
+    &.pressed {
+        background-color: #f4c29e;
+        transform: scale(1.5);
+    }
+
+    &.moving {
+        background-color: #dc8f58;
+        transform: scale(1.1);
+    }
+}
+
+/* Responsive Timeline */
+@media (max-width: 768px) {
+    .nav-timeline {
+        left: 1rem;
+        gap: 1.5rem;
+        padding: 1rem 0.6rem;
+
+        .dot {
+            width: 12px;
+            height: 12px;
+
+            &::after {
+                left: 20px;
+            }
+        }
+    }
+}
