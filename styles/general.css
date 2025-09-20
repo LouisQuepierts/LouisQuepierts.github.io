@@ -8,7 +8,7 @@
 }
 
 body {
-    color: #332211; /* 深棕色文字，与橙白背景形成对比 */
+    color: #332211;
     overflow-x: hidden;
     line-height: 1.6;
 }
@@ -80,4 +80,13 @@ a {
 a:hover {
     color: #ff7a00;
     border-bottom-color: #ff7a00;
+}
+
+
+
+@media (max-width: 768px) {
+
+    .section-content {
+        width: 100%;
+    }
 }

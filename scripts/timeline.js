@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     // Highlight active dot based on scroll position
-    window.addEventListener('scroll', () => {
+    window.addEventListener('scroll', (e) => {
         if (moveTarget) {
 
             const section = moveTarget.section;
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const distance = Math.abs(scrollY - sectionTop);
 
-            if (distance < 10) {
+            if (distance < 1) {
                 moveTarget = null;
             }
 
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const rect = pointer.getBoundingClientRect();
 
             const distance = Math.abs(rect.top - targetRect.top);
-            console.log(distance);
+            // console.log(distance);
             if (distance < 5) {
                 pointer.classList.remove('moving');
                 pointerTarget = null;
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
 
-            if (scrollY >= (sectionTop - sectionHeight / 3)) {
+            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
                 current = entry;
             }
         })
