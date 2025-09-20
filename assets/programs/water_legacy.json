@@ -1,0 +1,61 @@
+{
+  "name": "water",
+  "vertex": "water.vsh",
+  "fragment": "water.fsh",
+  "uniforms": [
+    {
+      "name": "uTime",
+      "type": "float",
+      "value": [ 0.0 ],
+      "hide": true
+    },
+    {
+      "name": "uSteepness",
+      "type": "float_range",
+      "value": [ 0.5 ],
+      "min": [ 0.0 ],
+      "max": [ 1.0 ],
+      "step": 0.01
+    },
+    {
+      "name": "uSpeed",
+      "type": "float_range",
+      "value": [ 5.0 ],
+      "min": [ 0.0 ],
+      "max": [ 10.0 ],
+      "step": 0.1
+    },
+    {
+      "name": "uWave",
+      "type": "array",
+      "element": "float",
+      "value": [
+        [ 0.0, 0.0, 0.0, 0.0 ],
+        [ 0.0, 0.0, 0.0, 0.0 ],
+        [ 0.0, 0.0, 0.0, 0.0 ],
+        [ 0.0, 0.0, 0.0, 0.0 ]
+      ]
+    },
+    {
+      "name": "uSurfaceColor",
+      "type": "color",
+      "value": [ 1.0, 0.0, 0.0 ]
+    },
+    {
+      "name": "uDarkerColor",
+      "type": "color",
+      "value": [ 0.0, 1.0, 0.0 ]
+    },
+    {
+      "name": "uLighterColor",
+      "type": "color",
+      "value": [ 1.0, 1.0, 1.0 ]
+    },
+    {
+      "name": "uWorldLightDirection",
+      "type": "float",
+      "size": 3,
+      "value": [ 0.0, -0.5, -0.5 ]
+    }
+  ]
+}

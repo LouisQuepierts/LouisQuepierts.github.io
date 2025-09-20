@@ -1,0 +1,43 @@
+{
+  "name": "object",
+  "vertex": "object.vsh",
+  "fragment": "object.fsh",
+  "uniforms": [
+    {
+      "name": "uAlbedo",
+      "type": "color",
+      "value": [ 1.0, 1.0, 1.0 ]
+    },
+    {
+      "name": "uLighterColor",
+      "type": "color",
+      "value": [ 1.0, 1.0, 1.0 ]
+    },
+    {
+      "name": "uDarkerColor",
+      "type": "color",
+      "value": [ 0.5, 0.5, 0.5 ]
+    },
+    {
+      "name": "uTransitionColor",
+      "type": "color",
+      "value": [ 0.75, 0.75, 0.75 ]
+    },
+    {
+      "name": "uTransition",
+      "type": "float_range",
+      "value": [ 0.5 ],
+      "min": [ 0.0 ],
+      "max": [ 1.0 ],
+      "step": 0.01
+    },
+    {
+      "name": "uIntensity",
+      "type": "float_range",
+      "value": [ 0.5 ],
+      "min": [ 0.0 ],
+      "max": [ 1.0 ],
+      "step": 0.01
+    }
+  ]
+}
