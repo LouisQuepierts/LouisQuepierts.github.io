@@ -45,15 +45,6 @@ flat in vec3 vFlatCDirection;
 in vec4 vScreenPos;
 in vec4 vWorldPos;
 
-float calculateDepth(vec2 uv) {
-    float rawDepth = texture(uDepthTexture, uv).r;
-
-    float z = rawDepth * 2.0 - 1.0;
-    float linearDepth = (2.0 * uCameraNear * uCameraFar) /
-    (uCameraFar + uCameraNear - z * (uCameraFar - uCameraNear));
-    return linearDepth;
-}
-
 vec4 depth2world(vec2 uv) {
     float depth = texture(uDepthTexture, uv).r;
     vec4 clip;
