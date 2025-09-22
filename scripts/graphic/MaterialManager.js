@@ -1,9 +1,15 @@
 
 import * as THREE from '../libs/three/three.module.js'
-import * as GLOBAL from "../global.js";
 
 let shaders = new Map();
 let materials = new Map();
+
+export const FALLBACK_TEXTURE = new THREE.DataTexture(
+    new Uint8Array([255, 255, 255, 255]), // RGBA = 白色
+    1, 1,
+    THREE.RGBAFormat
+);
+FALLBACK_TEXTURE.needsUpdate = true;
 
 export class MaterialManager {
 
@@ -95,7 +101,7 @@ function getUniformValue(type, uniformConfig) {
     }
 
     if (uniformConfig.type === "sampler") {
-        return GLOBAL.FALLBACK_TEXTURE;
+        return FALLBACK_TEXTURE;
     }
 
     throw `Unsupported uniform type [${uniformConfig.type}]`;

@@ -13,6 +13,7 @@ export class CameraController {
 
     constructor(camera) {
         this.camera = camera;
+        this.camera.rotation.order = 'YXZ';
     }
 
     sync() {
@@ -23,12 +24,8 @@ export class CameraController {
     }
 
     set(pitch, yaw) {
-        this.camera.quaternion.setFromEuler(new THREE.Euler(
-            pitch,
-            yaw,
-            0,
-            'YXZ'
-        ));
+        this.camera.rotation.x = pitch;
+        this.camera.rotation.y = yaw;
         this.pitch = pitch;
         this.yaw = yaw;
     }

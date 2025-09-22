@@ -2,6 +2,8 @@
 import * as THREE from '../libs/three/three.module.js'
 import {UNIFORM_DIRECTION_LIGHT} from "../global.js";
 
+const RATIO = 0.5;
+
 export class SimpleRenderer {
     camera;
     renderer;
@@ -16,7 +18,12 @@ export class SimpleRenderer {
     depthTexture;
     depthTarget;
 
+    width;
+    height;
+
     constructor(window, debug = false) {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
         const aspect = window.innerWidth / window.innerHeight;
         const frustumSize = 10;
 
@@ -28,8 +35,16 @@ export class SimpleRenderer {
             0.1,
             1000
         )
+        const hWidth = this.width * RATIO;
+        const hHeight = this.height * RATIO;
+
         this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setSize(hWidth, hHeight);
+        this.renderer.setPixelRatio(window.devicePixelRatio * 0.8);
+
+        const dom = this.renderer.domElement;
+        dom.style.width = this.width + 'px';
+        dom.style.height = this.height + 'px';
 
         this.light = new THREE.DirectionalLight(0xffffff);
         this.light.position.set(5, 10, 5);
@@ -39,11 +54,13 @@ export class SimpleRenderer {
         this.transparent = new THREE.Scene();
         this.main = new THREE.Scene();
 
-        this.depthTexture = new THREE.DepthTexture();
+        this.depthTexture = new THREE.DepthTexture(hWidth, hHeight);
         this.depthTexture.type = THREE.UnsignedShortType;
+        this.depthTexture.minFilter = THREE.NearestFilter;
+        this.depthTexture.magFilter = THREE.NearestFilter;
         this.depthTarget = new THREE.WebGLRenderTarget(
-            window.innerWidth,
-            window.innerHeight,
+            hWidth,
+            hHeight,
             {
                 depthBuffer: true,
                 depthTexture: this.depthTexture
@@ -62,9 +79,23 @@ export class SimpleRenderer {
         UNIFORM_DIRECTION_LIGHT.value.color.copy(this.light.color);
 
         window.addEventListener('resize', () => {
-            this.renderer.setSize(window.innerWidth, window.innerHeight);
-            this.renderer.setPixelRatio(window.devicePixelRatio);
-            this.depthTarget.setSize(window.innerWidth, window.innerHeight);
+            if (this.width >= window.innerWidth && this.height >= window.innerHeight) {
+                return;
+            }
+
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+
+            const hWidth = this.width * RATIO;
+            const hHeight = this.height * RATIO;
+
+            this.renderer.setSize(hWidth, hHeight);
+            this.renderer.setPixelRatio(window.devicePixelRatio * 0.8);
+            this.depthTarget.setSize(hWidth, hHeight);
+
+            const dom = this.renderer.domElement;
+            dom.style.width = this.width + 'px';
+            dom.style.height = this.height + 'px';
 
             const aspect = window.innerWidth / window.innerHeight;
             const frustumSize = 10;
@@ -78,10 +109,11 @@ export class SimpleRenderer {
 
     render() {
         this.renderer.setRenderTarget(this.depthTarget);
+        this.renderer.clear();
         this.renderer.render(this.solid, this.camera);
+
         this.renderer.setRenderTarget(null);
         this.renderer.clear();
-
         this.renderer.render(this.main, this.camera);
     }
 
