@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quepierts的个人主页 | 游戏僧侣</title>
+    <link rel="stylesheet" href="styles/legacy/index.css">
+    <link rel="stylesheet" href="styles/legacy/general.css">
+    <link rel="stylesheet" href="styles/legacy/tags.css">
+    <link rel="stylesheet" href="styles/legacy/header.css">
+
+    <! -- Font Awesome 非常棒的图标库 -- >
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+    <header id="main-header">
+        <div class="header-container">
+            <a href="#home" class="header-title">主页</a>
+
+            <ul class="header-nav">
+                <li><a href="#about" class="header-goto">关于我</a></li>
+                <li><a href="#journey" class="header-goto">技能</a></li>
+                <li><a href="#projects" class="header-goto">项目</a></li>
+                <li><a href="#contact" class="header-goto">联系我</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <video class="video-background" id="background" poster="images/background.png" autoplay muted loop>
+        <source src="videos/background.mp4" type="video/mp4">
+    </video>
+
+    <main>
+        <section id="home">
+            <div class="container home-container">
+                <div class="avatar-container">
+                    <img src="images/avatar_latest.png" alt="个人头像" class="avatar">
+                </div>
+                <h1 >Kwenbierz Andier</h1>
+                <p>游戏僧侣 | 艺术鉴赏爱好者</p>
+                <p>致力于研究实时渲染、游戏开发、互动媒体</p>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>关于我</h2>
+            <div class="container">
+                <div class="about-container">
+                    <div class="hw">
+                        <img src="images/screenshot.png" alt="screenshot" class="picture">
+                    </div>
+                    <div class="hw">
+                        <p class="introduction">大学生一名，游戏僧侣，热爱探索图形学</p>
+                        <p class="introduction">兴趣领域包括Unity、Godot和Minecraft Modding，热衷于在游戏开发中创新</p>
+
+                        <h3>个人背景</h3>
+                        <ol class="about-edu">
+                            <li>2023-至今 广东外语外贸大学 本科</li>
+                            <li>2019-至今 自学 Java 开发</li>
+                            <li>2020-2024 自学 Unity 游戏开发</li>
+                            <li>2024-至今 研究 Godot 引擎</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="journey">
+            <h2>专业技能</h2>
+            <div class="journey-container">
+                <div class="skill-card">
+                    <p class="skill-title">
+                        <i></i> 游戏开发
+                    </p>
+                    <ul class="skill-content">
+                        <li class="skill-entry">
+                            <i></i> Unity 引擎
+                        </li>
+                        <li class="skill-entry">
+                            <i></i> Godot 引擎
+                        </li>
+                        <li class="skill-entry">
+                            <i></i> Minecraft Modding
+                        </li>
+                        <li class="skill-entry">
+                            <i></i> LWJGL + GLFW
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <p class="skill-title">
+                        <i></i> 编程技能
+                    </p>
+                    <ul class="skill-content">
+                        <li class="skill-entry">
+                            <i></i> Java
+                        </li>
+                        <li class="skill-entry">
+                            <i></i> C#
+                        </li>
+                        <li class="skill-entry">
+                            <i></i> C++
+                        </li>
+                        <li class="skill-entry">
+                            <i></i> GLSL/HLSL
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <p class="skill-title">
+                        <i></i> 工具
+                    </p>
+                    <ul class="skill-content">
+                        <li class="skill-entry">
+                            <i></i> JetBrains IDEA/Rider
+                        </li>
+                        <li class="skill-entry">
+                            <i></i> Blender
+                        </li>
+                        <li class="skill-entry">
+                            <i></i> BlockBench
+                        </li>
+                        <li class="skill-entry">
+                            <i></i> FL Studio
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>作品集</h2>
+            <div class="container">
+
+                <! -- 项目列表 -- >
+                <div class="projects-list-container">
+                    <table>
+                        <thead>
+                            <tr style="background-color: #f3f4f6">
+                                <th>项目名称</th>
+                                <th>类型</th>
+                                <th>技术栈</th>
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Phos: The Light Tracer</td>
+                                <td>游戏开发</td>
+                                <td>Unity, C#</td>
+                                <td><span class="tag-progressing">进行中</span></td>
+                            </tr>
+                            <tr>
+                                <td>Tidal Carol</td>
+                                <td>游戏开发</td>
+                                <td>Unity, C#</td>
+                                <td><span class="tag-planned">计划中</span></td>
+                            </tr>
+                            <tr>
+                                <td>ThatSkyInteractions</td>
+                                <td>Mod开发</td>
+                                <td>NeoForge, Java, GLSL</td>
+                                <td><span class="tag-finish">已完成</span></td>
+                            </tr>
+                            <tr>
+                                <td>Animata</td>
+                                <td>Java开发</td>
+                                <td>Java, GLSL</td>
+                                <td><span class="tag-progressing">进行中</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <! -- 项目展示 -- >
+                <div class="projects-container">
+                    <div class="project-card">
+                        <div class="card-image-container">
+                            <img src="images/missing.png" alt="Phos: The Light Tracer" class="card-image">
+                            <div class="image-overlay">
+                                <button class="view-details-btn">查看详情</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Phos: The Light Tracer（拂光）</h3>
+                            <p class="card-description">使用Unity开发的3D类《纪念碑谷》解谜游戏</p>
+                            <div class="tags-container">
+                                <span class="tag-general">Unity</span>
+                                <span class="tag-general">C#</span>
+                                <span class="tag-general">3D游戏</span>
+                                <span class="tag-general">视错觉</span>
+                            </div>
+                            <div class="card-footer">
+                                <span class="date">2024年12月</span>
+                                <a href="https://github.com/LouisQuepierts/Phos-Prototype" class="view-project" target="_blank">
+                                    查看项目 <i class="fa fa-arrow-right arrow-icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="card-image-container">
+                            <img src="images/missing.png" alt="Tidal Carol" class="card-image">
+                            <div class="image-overlay">
+                                <button class="view-details-btn">查看详情</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Tidal Carol（潮汐颂歌）</h3>
+                            <p class="card-description">计划使用Unity引擎开发的3D游戏，箱庭世界，徒步模拟器</p>
+                            <div class="tags-container">
+                                <span class="tag-general">Unity</span>
+                                <span class="tag-general">C#</span>
+                                <span class="tag-general">3D游戏</span>
+                                <span class="tag-planned">计划中</span>
+                            </div>
+                            <div class="card-footer">
+                                <span class="date">2022年8月</span>
+                                <a href="https://github.com/LouisQuepierts/ThatSkyInteractions" class="view-project" target="_blank">
+                                    查看项目 <i class="fa fa-arrow-right arrow-icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="card-image-container">
+                            <img src="https://raw.githubusercontent.com/LouisQuepierts/ThatSkyInteractions/refs/heads/master/src/main/resources/thatskyinteractions.png" alt="ThatSkyInteractions" class="card-image">
+                            <div class="image-overlay">
+                                <button class="view-details-btn">查看详情</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">ThatSkyInteractions</h3>
+                            <p class="card-description">将《光·遇》的互动机制带到Minecraft当中</p>
+                            <div class="tags-container">
+                                <span class="tag-general">NeoForge</span>
+                                <span class="tag-general">Minecraft</span>
+                                <span class="tag-general">Mod</span>
+                                <span class="tag-general">Java</span>
+                            </div>
+                            <div class="card-footer">
+                                <span class="date">2024年8月</span>
+                                <a href="https://github.com/LouisQuepierts/ThatSkyInteractions" class="view-project" target="_blank">
+                                    查看项目 <i class="fa fa-arrow-right arrow-icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="card-image-container">
+                            <img src="https://raw.githubusercontent.com/LouisQuepierts/SimpleAnimator/refs/heads/master/common/src/main/resources/simple_animator.png" alt="SimpleAnimator" class="card-image">
+                            <div class="image-overlay">
+                                <button class="view-details-btn">查看详情</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Animata</h3>
+                            <p class="card-description">更现代的动画驱动框架</p>
+                            <div class="tags-container">
+                                <span class="tag-general">Java</span>
+                            </div>
+                            <div class="card-footer">
+                                <span class="date">2024年5月</span>
+                                <a href="https://github.com/LouisQuepierts/Animata-Core" class="view-project" target="_blank">
+                                    查看项目 <i class="fa fa-arrow-right arrow-icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--<section id="contact">
+            <h2>与我联系</h2>
+            <div class="container">
+                <form id="contact-form" class="contact-form">
+                    <div class="contact-basic-inf">
+                        <div>
+                            <label for="name" class="label">姓名</label>
+                            <input type="text" id="name" name="name" class="input-field" required>
+                        </div>
+                        <div>
+                            <label for="email" class="label">邮箱</label>
+                            <input type="email" id="email" name="email" class="input-field" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="subject" class="label">主题</label>
+                        <input type="text" id="subject" name="subject" class="input-field" required>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="message" class="label">消息</label>
+                        <textarea id="message" name="message" rows="5" class="input-field" style="resize: none" required></textarea>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="label">感兴趣的领域</label>
+                        <div class="contact-types">
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="interest" value="unity" class="text-primary focus:ring-primary">
+                                Unity开发
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="interest" value="godot" class="text-primary focus:ring-primary">
+                                Godot开发
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="interest" value="modding" class="text-primary focus:ring-primary">
+                                Mod开发
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        发送消息 <i class="fa fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
+            </div>
+        </section>-->
+
+        <footer>
+            <div class="container"> </div>
+        </footer>
+    </main>
+</body>
+
+<script type="module" src="scripts/index.js"></script>
+<script type="module" src="scripts/header.js"></script>
+</html>
