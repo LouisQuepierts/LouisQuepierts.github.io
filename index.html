@@ -180,6 +180,7 @@
 <script type="module">
     import * as THREE from './scripts/libs/three/three.module.js'
     import * as GLOBAL from "./scripts/global.js";
+    import * as TEMPLATE from "./scripts/templates.js"
 
     import Ticker from "./scripts/system/Ticker.js";
     import PropertyManager from "./scripts/system/PropertyManager.js";
@@ -241,7 +242,7 @@
 
         GLOBAL.UNIFORM_CAMERA.value.position.copy(camera.position);
 
-        await PropertyManager.fromAssets("tmp.lite");
+        await PropertyManager.load(TEMPLATE.STYLE_DEFAULT);
 
         PropertyManager.material("object");
         PropertyManager.material("water");

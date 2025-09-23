@@ -21,20 +21,29 @@ export class Animation {
     timer;
 
     action;
+    lerp;
 
-    constructor(duration, action) {
+    constructor(duration, action, lerp = LerpFunctions.color) {
         this.duration = duration;
         this.timer = 0;
+        this.lerp = lerp;
 
         this.action = action;
     }
 
     tick(delta) {
         this.timer += delta;
-        this.action(this.timer / this.duration);
+        const innerDelta = this.lerp(this.timer / this.duration);
+        this.action(innerDelta);
     }
 
     isDone() {
         return this.timer >= this.duration;
+    }
+}
+
+export class LerpFunctions {
+    static simple(input) {
+        return input;
     }
 }

@@ -1,6 +1,6 @@
 
 import * as THREE from '../libs/three/three.module.js'
-import {UNIFORM_DIRECTION_LIGHT} from "../global.js";
+import * as GLOBAL from '../global.js'
 
 const RATIO = 0.5;
 
@@ -70,13 +70,13 @@ export class SimpleRenderer {
         this.main.add(this.solid, this.transparent);
         this.main.add(this.light, this.light.target);
 
-        this.lightHelper = new THREE.DirectionalLightHelper(this.light, 5);
         if (debug) {
+            this.lightHelper = new THREE.DirectionalLightHelper(this.light, 5);
             this.main.add(this.lightHelper);
         }
 
-        UNIFORM_DIRECTION_LIGHT.value.direction.copy(this.light.target.position).sub(this.light.position).normalize();
-        UNIFORM_DIRECTION_LIGHT.value.color.copy(this.light.color);
+        GLOBAL.UNIFORM_DIRECTION_LIGHT.value.direction.copy(this.light.target.position).sub(this.light.position).normalize();
+        GLOBAL.UNIFORM_DIRECTION_LIGHT.value.color.copy(this.light.color);
 
         window.addEventListener('resize', () => {
             if (this.width >= window.innerWidth && this.height >= window.innerHeight) {

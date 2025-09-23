@@ -24,8 +24,8 @@ class Ticker {
         if (delta >= 1000.0 / this.tps) {
             this.lastTime = time;
 
-            for (let operation of this.operations) {
-                operation(this.deltaTimer);
+            for (let entry of this.operations) {
+                entry.operation(this.deltaTimer);
             }
 
             this.deltaTimer = 0.0;
@@ -34,8 +34,25 @@ class Ticker {
         requestAnimationFrame(() => this.run());
     }
 
-    addOperation(operation) {
-        this.operations.push(operation);
+    addOperation(operation, priority = 0) {
+        const entry = {
+            operation: operation,
+            priority: priority
+        };
+
+        this.operations.push(entry);
+        this.operations.sort((a, b) => a.priority - b.priority);
+        /*if (this.operations.length > 0) {
+            // insert by priority
+            for (let i = 0; i < this.operations.length; i++) {
+                if (entry.priority < this.operations[i].priority) {
+                    this.operations.splice(i, 0, entry);
+                    return;
+                }
+            }
+        } else {
+            this.operations.push(entry);
+        }*/
     }
 
     terminate() {

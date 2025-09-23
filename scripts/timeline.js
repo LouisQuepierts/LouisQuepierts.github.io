@@ -11,6 +11,8 @@ let moveTarget;
 let currentEntry;
 
 const transitionStyle = 'top 0.3s ease, transform 0.3s ease, background-color 0.3s ease'
+const actions = new Map();
+window.actions = actions;
 
 document.addEventListener('DOMContentLoaded', function() {
     const dots = document.querySelectorAll('.dot');
@@ -209,6 +211,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById(targetId).scrollIntoView({
             behavior: 'smooth'
         });
+
+        const action = actions[targetId];
+        if (action) {
+            action();
+        }
     }
 
     function initPointer() {

@@ -26,6 +26,8 @@ export class Property {
         this._value = value;
         this._dirty = true;
 
+        this.isProperty = true;
+
         Object.freeze(this.name);
         Object.freeze(this.type);
     }
