@@ -181,6 +181,7 @@
     import * as THREE from './scripts/libs/three/three.module.js'
     import * as GLOBAL from "./scripts/global.js";
     import * as TEMPLATE from "./scripts/templates.js"
+    import * as TWEEN from "./scripts/system/Tween.js"
 
     import Ticker from "./scripts/system/Ticker.js";
     import PropertyManager from "./scripts/system/PropertyManager.js";
@@ -222,9 +223,15 @@
         PropertyManager.object("cube[2]", cube2);
 
         const light = renderer.getLight();
-        PropertyManager.vector("light.position", light.position);
-        PropertyManager.vector("light.target", light.target.position);
-        PropertyManager.color("light.color", light.color);
+        PropertyManager.register("light.position", (array) => {
+            light.position.fromArray(array);
+            GLOBAL.UNIFORM_DIRECTION_LIGHT.value.direction.copy(light.target.position).sub(light.position).normalize();
+        });
+        PropertyManager.register("light.target", (array) => {
+            light.target.position.fromArray(array);
+            GLOBAL.UNIFORM_DIRECTION_LIGHT.value.direction.copy(light.target.position).sub(light.position).normalize();
+        });
+        PropertyManager.color("light.color", GLOBAL.UNIFORM_DIRECTION_LIGHT.value.color);
 
         const camera = renderer.getCamera();
         camera.position.set(16, 10, 16);
@@ -242,7 +249,8 @@
 
         GLOBAL.UNIFORM_CAMERA.value.position.copy(camera.position);
 
-        await PropertyManager.load(TEMPLATE.STYLE_DEFAULT);
+        PropertyManager.setupTemplate(TEMPLATE.STYLE_HOME, "home");
+        PropertyManager.setupTemplate(TEMPLATE.STYLE_PROJECTS, "projects");
 
         PropertyManager.material("object");
         PropertyManager.material("water");
@@ -265,8 +273,12 @@
         Ticker.addOperation(() => renderer.render());
         Ticker.tps = 30;
 
-        GLOBAL.UNIFORM_DIRECTION_LIGHT.value.direction.copy(light.target.position).sub(light.position).normalize();
-        GLOBAL.UNIFORM_DIRECTION_LIGHT.value.color.copy(light.color);
+        TEMPLATE.ACTIONS.set("home", () => apply("home", 0.2));
+        TEMPLATE.ACTIONS.set("projects", () => apply("projects", 0.2));
+
+        function apply(template, duration) {
+            PropertyManager.applyTemplate(template, duration);
+        }
     }
 
     function createWater(size) {

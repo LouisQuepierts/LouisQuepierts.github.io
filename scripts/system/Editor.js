@@ -1,6 +1,9 @@
+import * as THREE from "../libs/three/three.module.js"
+
 import {MaterialManager} from "../graphic/MaterialManager.js";
 import InputSystem from "./InputSystem.js";
 import Ticker from "./Ticker.js";
+import PropertyManager from "./PropertyManager.js";
 
 const editorElement = document.getElementById("editor");
 const contentElement = document.createElement("div");
@@ -17,7 +20,8 @@ saveButton.innerText = "Save";
 saveButton.onclick = () => {
     // get name from input
     const name = nameInput.value;
-    Editor.save(name);
+    const lite = name.endsWith(".lite")
+    Editor.save(name, lite);
 };
 editorElement.appendChild(saveButton);
 
@@ -52,8 +56,6 @@ export class Editor {
     static tick() {
         if (InputSystem.consume('e')) {
             hidden = !hidden;
-            console.log("Editor")
-
             editorElement.style.visibility = hidden ? "hidden" : "visible";
         }
     }
@@ -65,6 +67,7 @@ export class Editor {
         editorElement.style.height = "20%";
         editorElement.style.overflow = "auto";
 
+        PropertyManager.load(configuration);
         // for loop to create items
         Editor.load(configuration);
 
@@ -72,14 +75,14 @@ export class Editor {
     }
 
     static get(name) {
-        if (!options.has(name)) {
-            // console.log(options);
-            throw `Option [${name}] not found`;
+        const property = PropertyManager.getProperty(name);
+        if (!property) {
+            throw `Property [${name}] not found`;
         }
-        return options.get(name).item.value;
+        return property.value;
     }
 
-    static save(file) {
+    static save(file, lite) {
         // save as json
         let json = [];
         for (let [key, value] of options) {
@@ -102,6 +105,19 @@ export class Editor {
                     saveColor(key, item, json);
                     break;
             }
+        }
+
+        // if lite, then remove all properties except name, type, and value
+        if (lite) {
+            let liteJson = [];
+            for (let item of json) {
+                liteJson.push({
+                    name: item.name,
+                    type: item.type,
+                    value: item.value
+                });
+            }
+            json = liteJson;
         }
 
         // write to file
@@ -144,7 +160,7 @@ export class Editor {
         // nameInput.value = name;
 
         // console.log(config);
-        for (let [,item] of Object.entries(config.uniforms)) {
+        for (let item of config.uniforms) {
             if (item.hide || item.type === 'sampler') {
                 continue;
             }
@@ -201,8 +217,6 @@ export class Editor {
                 }
             }
         }
-
-        console.log("options", options)
     }
 }
 
@@ -219,6 +233,7 @@ function label(text) {
 // add a slider to editorElement
 function createSlider(name, item) {
     let slider = options.get(name)?.item;
+    const property = PropertyManager.createProperty(name, "slider", item.value);
 
     if (!slider) {
         let div = createDiv(name);
@@ -234,11 +249,15 @@ function createSlider(name, item) {
         let number = document.createElement("span");
         number.innerText = slider.value;
         div.appendChild(number);
-        slider.oninput = () => {
-            number.innerText = slider.value;
-        };
 
         addOption(name, slider, "slider");
+
+        // when slider changed, set property value
+        slider.oninput = () => {
+            number.innerText = slider.value;
+            property.value = parseFloat(slider.value);
+            property.markDirty();
+        };
     } else {
         slider.min = item.min;
         slider.max = item.max;
@@ -291,6 +310,7 @@ function createVector(name, item) {
     let vector = options.get(name)?.item;
     const size = item.value.length;
 
+    const property = PropertyManager.createProperty(name, "vector", item.value);
     if (!vector) {
         vector = createDiv(name);
 
@@ -300,7 +320,13 @@ function createVector(name, item) {
             input.value = item.value[i];
             input.step = "0.1";
             vector.appendChild(input);
-            addOption(name + "[" + i + "]", input, "vector", true);
+            const itemName = name + "[" + i + "]";
+            addOption(itemName, input, "vector", true);
+
+            input.addEventListener('input', () => {
+                property.value[i] = parseFloat(input.value);
+                property.markDirty();
+            })
         }
         addOption(name, vector, "vector");
     } else {
@@ -309,6 +335,7 @@ function createVector(name, item) {
         const inputs = vector.querySelectorAll("input");
         for (let child of inputs) {
             child.value = item.value[i];
+            property.value[i] = parseFloat(child.value);
             i++;
 
             if (i >= size) {
@@ -342,6 +369,7 @@ function saveVector(name, div, out) {
 
 function createColor(name, item) {
     let color = options.get(name)?.item;
+    const property = PropertyManager.createProperty(name, "color", new THREE.Color(item.value));
 
     if (!color) {
         let div = createDiv(name);
@@ -349,9 +377,16 @@ function createColor(name, item) {
         color.type = "color";
         div.appendChild(color);
         addOption(name, color, "color");
+
+        color.addEventListener("input", () => {
+            property.value.set(color.value);
+            property.markDirty();
+        });
     }
 
     color.value = item.value;
+    property.value.set(color.value);
+    property.markDirty();
     return color;
 }
 

@@ -7,7 +7,7 @@ import Ticker from "./Ticker.js";
 const ANIMATOR = new Animator();
 Ticker.addOperation((delta) => ANIMATOR.tick(delta));
 
-export function rgb(name, target, duration, from, to) {
+export function rgb(name, target, duration, from, to, lerpFunction = LerpFunctions.simple) {
     let interpolator;
     if (from.isColor && to.isColor) {
         interpolator = Interpolator.simple(from, to);
@@ -16,10 +16,10 @@ export function rgb(name, target, duration, from, to) {
     } else {
         throw "Invalid arguments for " + name;
     }
-    execute(name, target, duration, interpolator);
+    execute(name, target, duration, interpolator, lerpFunction);
 }
 
-export function hsl(name, target, duration, from, to) {
+export function hsl(name, target, duration, from, to, lerpFunction = LerpFunctions.simple) {
     let interpolator;
     if (from.isColor && to.isColor) {
         interpolator = Interpolator.hsl(from, to);
@@ -28,20 +28,28 @@ export function hsl(name, target, duration, from, to) {
     } else {
         throw "Invalid arguments for " + name;
     }
-    execute(name, target, duration, interpolator);
+    execute(name, target, duration, interpolator, lerpFunction);
 }
 
-export function vector(name, target, duration, from, to) {
+export function vector(name, target, duration, from, to, lerpFunction = LerpFunctions.simple) {
     let interpolator;
     if ("lerp" in from && "clone" in from) {
-        interpolator = Interpolator.color(from, to);
+        interpolator = Interpolator.simple(from, to);
     } else {
         throw "Invalid arguments for " + name;
     }
-    execute(name, target, duration, interpolator);
+    execute(name, target, duration, interpolator, lerpFunction);
 }
 
-export function execute(name, target, duration, interpolator, lerpFunction = LerpFunctions.color) {
+export function array(name, target, duration, from, to, lerpFunction = LerpFunctions.simple) {
+    execute(name, target, duration, Interpolator.array(from, to), lerpFunction);
+}
+
+export function number(name, target, duration, from, to, lerpFunction = LerpFunctions.simple) {
+    execute(name, target, duration, Interpolator.number(from, to), lerpFunction);
+}
+
+export function execute(name, target, duration, interpolator, lerpFunction = LerpFunctions.simple) {
     let action;
     if (typeof target === "function") {
         action = delta => target(interpolator(delta));
@@ -62,6 +70,16 @@ export function execute(name, target, duration, interpolator, lerpFunction = Ler
 }
 
 export class Interpolator {
+    static number(from, to) {
+        return (delta, target = null) => {
+            if (target) {
+                return target.lerp(from, to, delta);
+            } else {
+                return from + (to - from) * delta;
+            }
+        };
+    }
+
     static simple(from, to) {
         return (delta, target = null) => {
             if (target) {
@@ -80,5 +98,18 @@ export class Interpolator {
                 return from.clone().lerpHSL(to, delta);
             }
         };
+    }
+
+    static array(from, to) {
+        return (delta, target = null) => {
+            if (target) {
+                for (let i = 0; i < from.length; i++) {
+                    target[i] = from[i] + (to[i] - from[i]) * delta;
+                }
+                return target;
+            } else {
+                throw "Invalid arguments for array interpolator";
+            }
+        }
     }
 }

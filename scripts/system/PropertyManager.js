@@ -1,7 +1,10 @@
 
 import * as THREE from '../libs/three/three.module.js'
+import * as Tween from './Tween.js'
 import {MaterialManager} from "../graphic/MaterialManager.js";
+import {LerpFunctions} from "./Animator.js";
 
+const templates = new Map();
 const consumers = new Map();
 const properties = new Map();
 const bindings = new Map();
@@ -11,6 +14,8 @@ const sceneInput = document.createElement("input");
 sceneInput.type = "file";
 sceneInput.style.display = "none";
 sceneInput.accept = ".lite";
+
+let usedTemplate;
 
 export class Property {
     name;
@@ -72,8 +77,58 @@ class PropertyManager {
         this.load(json);
     }
 
-    load(config) {
-        properties.clear();
+    setupTemplate(config, name) {
+        let map = templates.get(name);
+        if (!map) {
+            map = new Map();
+            templates.set(name, map);
+        }
+        this.load(config, map);
+
+        if (properties.size === 0) {
+            usedTemplate = name;
+            this.load(config);
+        }
+    }
+
+    applyTemplate(templateName, duration = 0) {
+        if (usedTemplate === templateName) {
+            return;
+        }
+
+        const used = templates.get(usedTemplate);
+        const template = templates.get(templateName);
+        if (!template) throw `Template [${templateName}] not found`;
+        usedTemplate = templateName;
+
+        for (let [name, property] of template) {
+            const p = properties.get(name);
+            const u = used.get(name);
+
+            // if (name !== "light.target") continue;
+
+            if (p && u) {
+                if (Array.isArray(p.value)) {
+                    Tween.array(name, p, duration, u.value, property.value, LerpFunctions.curve);
+                } else {
+                    switch (p.type) {
+                        case "slider":
+                            Tween.number(name, p, duration, u.value, property.value, LerpFunctions.curve);
+                            break;
+                        case "color":
+                            console.log(name, u, property);
+                            Tween.rgb(name, p, duration, u.value, property.value, LerpFunctions.curve);
+                            break;
+                        case "vector":
+                            Tween.vector(name, p, duration, u.value, property.value, LerpFunctions.curve);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    load(config, dest = properties) {
         const arrayLike = new Map();
 
         for (let item of config) {
@@ -107,7 +162,7 @@ class PropertyManager {
                     value = new THREE.Color(item.value);
                     break;
                 case "vector":
-                    value = item.value;
+                    value = [...item.value];
                     break;
             }
             setProperty(name, type, value);
@@ -117,20 +172,20 @@ class PropertyManager {
             const type = arrayElement[0].item.type;
             const array = new Array(arrayElement.length);
             for (let element of arrayElement) {
-                array[element.index] = element.item.value;
+                array[element.index] = parseFloat(element.item.value);
             }
             setProperty(arrayName, type, array);
         }
 
         function setProperty(name, type, value) {
-            const property = properties.get(name);
+            const property = dest.get(name);
             if (property) {
                 if (property.type !== type) {
                     throw `Property [${name}] type mismatch`;
                 }
                 property.value = value;
             } else {
-                properties.set(name, new Property(name, type, value));
+                dest.set(name, new Property(name, type, value));
             }
         }
     }
@@ -165,6 +220,23 @@ class PropertyManager {
         }
     }
 
+    createProperty(name, type, value) {
+        if (value instanceof Array && value.length === 1) {
+            value = value[0];
+        }
+        let property = properties.get(name);
+        if (property) {
+            if (property.type !== type) {
+                throw `Property [${name}] type mismatch`;
+            }
+            property.value = value;
+        } else {
+            property = new Property(name, type, value);
+            properties.set(name, property);
+        }
+        return property;
+    }
+
     getProperty(name) {
         return properties.get(name);
     }
@@ -178,7 +250,7 @@ class PropertyManager {
     }
 
     vector(name, vec) {
-        /*if ('x' in vec) {
+        if ('x' in vec) {
             this.register(name + "[0]", (value) => vec.x = value);
         }
 
@@ -193,7 +265,7 @@ class PropertyManager {
         if ('w' in vec) {
             this.register(name + "[3]", (value) => vec.w = value);
         }
-*/
+
         this.register(name, (value) => vec.fromArray(value));
     }
 

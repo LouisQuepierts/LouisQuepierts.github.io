@@ -44,8 +44,55 @@ export const STYLE_HOME = [
     {name:"object.uIntensity",type:"slider",value:"0.5"}
 ]
 
+export const STYLE_PROJECTS = [
+    {name:"speed",type:"slider",value:"4"},
+    {name:"water.Rotation",type:"slider",value:"-180"},
+    {name:"position",type:"vector",value:[0,0,0]},
+    {name:"tick/s",type:"slider",value:"60"},
+    {name:"light.position",type:"vector",value:[5,10,5]},
+    {name:"light.target",type:"vector",value:[10,8,6.4]},
+    {name:"light.color",type:"color",value:"#ffe2a3"},
+    {name:"cube[0].position",type:"vector",value:[16,-6.9,-2]},
+    {name:"cube[0].rotation",type:"vector",value:[0,0,0]},
+    {name:"cube[0].scale",type:"vector",value:[6,20,6]},
+    {name:"cube[1].position",type:"vector",value:[7.4,-2,5]},
+    {name:"cube[1].rotation",type:"vector",value:[3.5,-4,-11.1]},
+    {name:"cube[1].scale",type:"vector",value:[3,17,4]},
+    {name:"cube[2].position",type:"vector",value:[2.3,-7.9,15.7]},
+    {name:"cube[2].rotation",type:"vector",value:[0,2,-22.2]},
+    {name:"cube[2].scale",type:"vector",value:[24,13,8]},
+    {name:"water.uRandomDirection",type:"slider",value:"0.91"},
+    {name:"water.uWaveCount",type:"slider",value:"4"},
+    {name:"water.uWavelength[0]",type:"slider",value:"8.3"},
+    {name:"water.uWavelength[1]",type:"slider",value:"1.1"},
+    {name:"water.uSteepness[0]",type:"slider",value:"0.7"},
+    {name:"water.uSteepness[1]",type:"slider",value:"0.1"},
+    {name:"water.uSurfaceColor",type:"color",value:"#fed29f"},
+    {name:"water.uDarkerColor",type:"color",value:"#a41963"},
+    {name:"water.uDeeperColor",type:"color",value:"#c52081"},
+    {name:"water.uWaveDirection",type:"vector",value:[1,1]},
+    {name:"water.uCamera",type:"vector",value:[0.01,1000]},
+    {name:"water.uDeepFactor",type:"slider",value:"0.27"},
+    {name:"water.uFoamColor",type:"color",value:"#fff4eb"},
+    {name:"water.uFoamWidth",type:"slider",value:"0.78"},
+    {name:"water.uFoamNoiseScale",type:"slider",value:"0.04"},
+    {name:"water.uFoamNoiseAmplifier",type:"slider",value:"0.5"},
+    {name:"water.uFoamNoiseSpeed",type:"slider",value:"0.03"},
+    {name:"water.uShininess",type:"slider",value:"10.9"},
+    {name:"water.uSpecularStrength",type:"slider",value:"0.43"},
+    {name:"water.uShear[0]",type:"slider",value:"-0.5"},
+    {name:"water.uShear[1]",type:"slider",value:"0"},
+    {name:"object.uAlbedo",type:"color",value:"#ffffff"},
+    {name:"object.uLighterColor",type:"color",value:"#fff5d1"},
+    {name:"object.uDarkerColor",type:"color",value:"#e5b8b8"},
+    {name:"object.uTransitionColor",type:"color",value:"#ffb69e"},
+    {name:"object.uTransition",type:"slider",value:"0.49"},
+    {name:"object.uIntensity",type:"slider",value:"0.5"}
+]
+
 export const BACKGROUND_STYLES = {
     home: STYLE_HOME
 }
 
 export const STYLE_DEFAULT = STYLE_HOME;
+export const ACTIONS = new Map();

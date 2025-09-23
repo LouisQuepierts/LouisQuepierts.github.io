@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Three.js Test</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+  </style>
+  <link rel="stylesheet" href="styles/editor.css"></link>
+</head>
+<body>
+<input type="file" id="input" style="display: none;" accept=".json,application/json" />
+<div id="info">
+<!--  show camera info -->
+  <div id="cameraInfo" style="color: greenyellow; position: fixed">
+    <div>
+      <div id="cameraPosition"></div>
+      <div id="cameraRotation"></div>
+    </div>
+  </div>
+
+  <div id="editor">
+
+  </div>
+</div>
+<div id="canvas"></div>
+</body>
+<script type="module" src="scripts/page/editor.js"></script>
+</html>

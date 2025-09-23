@@ -1,4 +1,5 @@
 import {clamp} from "./math.js";
+import {ACTIONS} from "./templates.js";
 
 let pointerInit = false;
 let pressed;
@@ -11,8 +12,6 @@ let moveTarget;
 let currentEntry;
 
 const transitionStyle = 'top 0.3s ease, transform 0.3s ease, background-color 0.3s ease'
-const actions = new Map();
-window.actions = actions;
 
 document.addEventListener('DOMContentLoaded', function() {
     const dots = document.querySelectorAll('.dot');
@@ -188,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
 
-            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+            if (scrollY >= sectionTop - 30) {
                 current = entry;
             }
         })
@@ -207,15 +206,15 @@ document.addEventListener('DOMContentLoaded', function() {
             moveTarget = entry;
         }
 
+        const action = ACTIONS.get(targetId);
+        if (action) {
+            action();
+        }
+
         movePointer(dot, direct);
         document.getElementById(targetId).scrollIntoView({
             behavior: 'smooth'
         });
-
-        const action = actions[targetId];
-        if (action) {
-            action();
-        }
     }
 
     function initPointer() {

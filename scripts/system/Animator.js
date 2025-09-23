@@ -1,3 +1,4 @@
+import {clamp} from "../math.js";
 
 export class Animator {
     animations = new Map();
@@ -7,11 +8,16 @@ export class Animator {
     }
 
     tick(delta) {
-        for (let animation of this.animations.values()) {
+        const done = [];
+        for (const [key, animation] of this.animations) {
             animation.tick(delta);
             if (animation.isDone()) {
-                this.animations.delete(animation);
+                done.push(key);
             }
+        }
+
+        for (const key of done) {
+            this.animations.delete(key);
         }
     }
 }
@@ -23,7 +29,7 @@ export class Animation {
     action;
     lerp;
 
-    constructor(duration, action, lerp = LerpFunctions.color) {
+    constructor(duration, action, lerp = LerpFunctions.simple) {
         this.duration = duration;
         this.timer = 0;
         this.lerp = lerp;
@@ -33,17 +39,22 @@ export class Animation {
 
     tick(delta) {
         this.timer += delta;
-        const innerDelta = this.lerp(this.timer / this.duration);
+        const innerDelta = this.timer >= this.duration ? 1.0 : clamp(this.lerp(this.timer / this.duration), 0.0, 1.0);
         this.action(innerDelta);
     }
 
     isDone() {
-        return this.timer >= this.duration;
+        return this.timer > this.duration;
     }
 }
 
 export class LerpFunctions {
     static simple(input) {
         return input;
+    }
+
+    static curve(input) {
+        const sqr = input * input;
+        return 3 * sqr - 2 * sqr * input;
     }
 }
