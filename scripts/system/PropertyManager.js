@@ -15,6 +15,7 @@ sceneInput.type = "file";
 sceneInput.style.display = "none";
 sceneInput.accept = ".lite";
 
+const tmpTemplate = new Map();
 let usedTemplate;
 
 export class Property {
@@ -25,13 +26,15 @@ export class Property {
     _dirty;
     _delegate;
 
-    constructor(name, type, value) {
+    constructor(name, type, value, array) {
         this.name = name;
         this.type = type;
         this._value = value;
         this._dirty = true;
 
         this.isProperty = true;
+        this.isArray = array || Array.isArray(value);
+        this.isNumber = typeof value === 'number';
 
         Object.freeze(this.name);
         Object.freeze(this.type);
@@ -58,6 +61,55 @@ export class Property {
 
     bind(supplier) {
         this._delegate = supplier;
+    }
+
+    clone() {
+        if (this.isArray) {
+            return new Property(this.name, this.type, [...this._value], true);
+        } else if (this.isNumber) {
+            return new Property(this.name, this.type, this._value, false);
+        } else if ('clone' in this._value) {
+            return new Property(this.name, this.type, this._value.clone(), false);
+        }
+        throw "Illegal clone operation";
+    }
+
+    copy(other) {
+        if (this.isArray && other.isArray) {
+            for (let i = 0; i < this._value.length; i++) {
+                this._value[i] = other._value[i];
+            }
+        } else if (this.isNumber && other.isNumber) {
+            this._value = other._value;
+        } else if (this.type === other.type) {
+            if ('copy' in this._value) {
+                this._value.copy(other._value);
+            } else {
+                throw "Illegal target property type";
+            }
+        } else {
+            throw "Illegal target property type";
+        }
+    }
+
+    tween(duration, from, to, lerpFunction = LerpFunctions.curve) {
+        if (this.isArray) {
+            Tween.array(name, this, duration, from, to, lerpFunction);
+        } else if (this.isNumber) {
+            Tween.number(name, this, duration, from, to, lerpFunction);
+        } else {
+            switch (this.type) {
+                case "slider":
+                    Tween.number(name, this, duration, from, to, lerpFunction);
+                    break;
+                case "color":
+                    Tween.rgb(name, this, duration, from, to, lerpFunction);
+                    break;
+                case "vector":
+                    Tween.vector(name, this, duration, from, to, lerpFunction);
+                    break;
+            }
+        }
     }
 }
 
@@ -87,7 +139,32 @@ class PropertyManager {
 
         if (properties.size === 0) {
             usedTemplate = name;
-            this.load(config);
+            this.movTemplate(map, properties);
+        }
+    }
+
+    movTemplate(src, dest) {
+
+        if (!src || !dest) throw "Invalid template";
+        if (src === dest) return;
+        if (typeof src === 'string') src = templates.get(src);
+        if (!src) throw "Invalid template";
+        if (typeof dest === 'string') {
+            dest = templates.get(dest);
+            if (!dest) {
+                dest = new Map();
+                templates.set(dest, dest);
+            }
+        }
+
+        for (let [name, property] of src) {
+            const other = dest.get(name);
+            if (other) {
+                other.copy(property);
+            } else {
+                property = property.clone();
+                dest.set(name, property);
+            }
         }
     }
 
@@ -96,16 +173,17 @@ class PropertyManager {
             return;
         }
 
-        const used = templates.get(usedTemplate);
         const template = templates.get(templateName);
         if (!template) throw `Template [${templateName}] not found`;
         usedTemplate = templateName;
 
+        this.movTemplate(properties, tmpTemplate);
+
         for (let [name, property] of template) {
             const p = properties.get(name);
-            const u = used.get(name);
+            const u = tmpTemplate.get(name);
 
-            // if (name !== "light.target") continue;
+            // if (name !== "water.uRandomDirection") continue;
 
             if (p && u) {
                 if (Array.isArray(p.value)) {
@@ -116,7 +194,6 @@ class PropertyManager {
                             Tween.number(name, p, duration, u.value, property.value, LerpFunctions.curve);
                             break;
                         case "color":
-                            console.log(name, u, property);
                             Tween.rgb(name, p, duration, u.value, property.value, LerpFunctions.curve);
                             break;
                         case "vector":
@@ -165,7 +242,7 @@ class PropertyManager {
                     value = [...item.value];
                     break;
             }
-            setProperty(name, type, value);
+            setProperty(dest, name, type, value);
         }
 
         for (let [arrayName, arrayElement] of arrayLike.entries()) {
@@ -174,19 +251,7 @@ class PropertyManager {
             for (let element of arrayElement) {
                 array[element.index] = parseFloat(element.item.value);
             }
-            setProperty(arrayName, type, array);
-        }
-
-        function setProperty(name, type, value) {
-            const property = dest.get(name);
-            if (property) {
-                if (property.type !== type) {
-                    throw `Property [${name}] type mismatch`;
-                }
-                property.value = value;
-            } else {
-                dest.set(name, new Property(name, type, value));
-            }
+            setProperty(dest, arrayName, type, array);
         }
     }
 
@@ -312,6 +377,20 @@ class PropertyManager {
         } else if (typeof value.fromArray === 'function') {
             this.vector(name, value);
         }
+    }
+}
+
+
+
+function setProperty(dest, name, type, value, array = false) {
+    const property = dest.get(name);
+    if (property) {
+        if (property.type !== type) {
+            throw `Property [${name}] type mismatch`;
+        }
+        property.value = value;
+    } else {
+        dest.set(name, new Property(name, type, value, array));
     }
 }
 

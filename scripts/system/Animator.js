@@ -4,7 +4,15 @@ export class Animator {
     animations = new Map();
 
     play(name, animation) {
-        this.animations.set(name, animation);
+        if (this.animations.has(name)) {
+            const old = this.animations.get(name);
+            old.duration = animation.duration;
+            old.action = animation.action;
+            old.lerp = animation.lerp;
+            old.timer = 0.0
+        } else {
+            this.animations.set(name, animation);
+        }
     }
 
     tick(delta) {

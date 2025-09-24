@@ -15,7 +15,7 @@ export const STYLE_HOME = [
     {name:"cube[2].position",type:"vector",value:[2.3,-7.9,15.7]},
     {name:"cube[2].rotation",type:"vector",value:[0,2,-22.2]},
     {name:"cube[2].scale",type:"vector",value:[24,13,8]},
-    {name:"water.uRandomDirection",type:"slider",value:"0.81"},
+    {name:"water.uRandomDirection",type:"slider",value:"0.83"},
     {name:"water.uWaveCount",type:"slider",value:"4"},
     {name:"water.uWavelength[0]",type:"slider",value:"8.5"},
     {name:"water.uWavelength[1]",type:"slider",value:"3.5"},
@@ -42,6 +42,52 @@ export const STYLE_HOME = [
     {name:"object.uTransitionColor",type:"color",value:"#f5e5e0"},
     {name:"object.uTransition",type:"slider",value:"0.5"},
     {name:"object.uIntensity",type:"slider",value:"0.5"}
+]
+
+export const STYLE_JOURNEY = [
+    {name:"speed",type:"slider",value:"4"},
+    {name:"water.Rotation",type:"slider",value:"-160"},
+    {name:"position",type:"vector",value:[0,0,0]},
+    {name:"tick/s",type:"slider",value:"60"},
+    {name:"light.position",type:"vector",value:[5,10,5]},
+    {name:"light.target",type:"vector",value:[10,8,9.6]},
+    {name:"light.color",type:"color",value:"#ffe0f5"},
+    {name:"cube[0].position",type:"vector",value:[16,-6.9,-2]},
+    {name:"cube[0].rotation",type:"vector",value:[0,0,0]},
+    {name:"cube[0].scale",type:"vector",value:[6,20,6]},
+    {name:"cube[1].position",type:"vector",value:[7.4,-2,5]},
+    {name:"cube[1].rotation",type:"vector",value:[3.5,-5.3,-13]},
+    {name:"cube[1].scale",type:"vector",value:[3,17,4]},
+    {name:"cube[2].position",type:"vector",value:[2.3,-7.9,15.7]},
+    {name:"cube[2].rotation",type:"vector",value:[0,2,-22.2]},
+    {name:"cube[2].scale",type:"vector",value:[24,13,8]},
+    {name:"water.uRandomDirection",type:"slider",value:"0.86"},
+    {name:"water.uWaveCount",type:"slider",value:"4"},
+    {name:"water.uWavelength[0]",type:"slider",value:"9.1"},
+    {name:"water.uWavelength[1]",type:"slider",value:"1.5"},
+    {name:"water.uSteepness[0]",type:"slider",value:"0.8"},
+    {name:"water.uSteepness[1]",type:"slider",value:"0.2"},
+    {name:"water.uSurfaceColor",type:"color",value:"#d6f1ff"},
+    {name:"water.uDarkerColor",type:"color",value:"#a0b1f3"},
+    {name:"water.uDeeperColor",type:"color",value:"#7263a1"},
+    {name:"water.uWaveDirection",type:"vector",value:[1,1]},
+    {name:"water.uCamera",type:"vector",value:[0.01,1000]},
+    {name:"water.uDeepFactor",type:"slider",value:"0.15"},
+    {name:"water.uFoamColor",type:"color",value:"#ffffff"},
+    {name:"water.uFoamWidth",type:"slider",value:"0.65"},
+    {name:"water.uFoamNoiseScale",type:"slider",value:"0.05"},
+    {name:"water.uFoamNoiseAmplifier",type:"slider",value:"0.41"},
+    {name:"water.uFoamNoiseSpeed",type:"slider",value:"0.05"},
+    {name:"water.uShininess",type:"slider",value:"4.5"},
+    {name:"water.uSpecularStrength",type:"slider",value:"0.21"},
+    {name:"water.uShear[0]",type:"slider",value:"-0.5"},
+    {name:"water.uShear[1]",type:"slider",value:"0"},
+    {name:"object.uAlbedo",type:"color",value:"#ffffff"},
+    {name:"object.uLighterColor",type:"color",value:"#fdfcfd"},
+    {name:"object.uDarkerColor",type:"color",value:"#d0d0eb"},
+    {name:"object.uTransitionColor",type:"color",value:"#f6e3fd"},
+    {name:"object.uTransition",type:"slider",value:"0.46"},
+    {name:"object.uIntensity",type:"slider",value:"0.48"}
 ]
 
 export const STYLE_PROJECTS = [
@@ -90,9 +136,4 @@ export const STYLE_PROJECTS = [
     {name:"object.uIntensity",type:"slider",value:"0.5"}
 ]
 
-export const BACKGROUND_STYLES = {
-    home: STYLE_HOME
-}
-
-export const STYLE_DEFAULT = STYLE_HOME;
 export const ACTIONS = new Map();

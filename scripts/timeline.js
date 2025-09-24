@@ -1,5 +1,8 @@
-import {clamp} from "./math.js";
+import * as Tween from "./system/Tween.js"
+
+import {clamp, smoothstep} from "./math.js";
 import {ACTIONS} from "./templates.js";
+import PropertyManager from "./system/PropertyManager.js"
 
 let pointerInit = false;
 let pressed;
@@ -10,6 +13,12 @@ let maxY = -1;
 let pointerTarget;
 let moveTarget;
 let currentEntry;
+
+let pageDelta = {
+    value: 0.0,
+    from: 0.0,
+    to: 0.0,
+}
 
 const transitionStyle = 'top 0.3s ease, transform 0.3s ease, background-color 0.3s ease'
 
@@ -22,6 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const entries = [];
 
+    console.log("loaded");
+
     // Handle dot clicks
     dots.forEach(dot => {
         const targetId = dot.getAttribute('data-target');
@@ -31,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (section.id === targetId) {
                 entry = {
                     section: section,
-                    dot: dot
+                    dot: dot,
+                    id: targetId
                 };
                 entries.push(entry);
                 break;
@@ -123,6 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Highlight active dot based on scroll position
     window.addEventListener('scroll', (e) => {
+        // updateBackground();
         if (moveTarget) {
 
             const section = moveTarget.section;
@@ -185,7 +198,6 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             const section = entry.section;
             const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
 
             if (scrollY >= sectionTop - 30) {
                 current = entry;
@@ -193,6 +205,12 @@ document.addEventListener('DOMContentLoaded', function() {
         })
 
         if (current && current !== currentEntry) {
+
+            const action = ACTIONS.get(current.id);
+            if (action) {
+                action(0.5);
+            }
+
             currentEntry = current;
             movePointer(current.dot);
         }
@@ -263,4 +281,32 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300)
         }
     }
+
+    /*function updateBackground() {
+        const first = sections[0];
+        const last = sections[sections.length - 1];
+
+        const top = first.offsetTop;
+        const bottom = last.offsetTop + last.clientHeight- window.innerHeight;
+        const progress = window.scrollY;
+
+
+        // calculate delta percentage
+        const delta = clamp(progress / (bottom - top), 0, 1);
+        if (delta !== pageDelta.value) {
+            pageDelta.from = pageDelta.value;
+            pageDelta.to = delta;
+            const diff = Math.abs(delta - pageDelta.value);
+            Tween.execute("page-background-mix", backgroundCallback, diff, backgroundInterpolate);
+        }
+
+        function backgroundCallback(value) {
+            pageDelta.value = value;
+            PropertyManager.mixTemplate("home", "projects", value);
+        }
+
+        function backgroundInterpolate(delta) {
+            return pageDelta.from + (pageDelta.to - pageDelta.from) * delta;
+        }
+    }*/
 });
