@@ -68,7 +68,7 @@ const editorConfig = [
 const DEG2RAD = Math.PI / 180;
 const RAD2DEG = 180 / Math.PI;
 
-const renderer = new SimpleRenderer(window, true);
+const renderer = new SimpleRenderer(window, false);
 const controller = new CameraController(renderer.getCamera());
 
 const cameraPosition = document.getElementById('cameraPosition');
@@ -161,6 +161,7 @@ function init() {
     PropertyManager.vector("light.position", light.position);
     PropertyManager.vector("light.target", light.target.position);
     PropertyManager.color("light.color", light.color);
+    PropertyManager.vector("position", plane.position);
 
     controller.set(
         -35.264 * DEG2RAD,
@@ -195,6 +196,8 @@ function initEditor() {
     Editor.init(editorConfig);
     Editor.appendMaterial('water');
     Editor.appendMaterial('object');
+
+    Editor.setRenderer(renderer);
 }
 
 function initUniform() {

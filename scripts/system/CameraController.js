@@ -8,24 +8,41 @@ const DEG2RAD = Math.PI / 180;
 export class CameraController {
     camera;
 
-    yaw;
-    pitch;
+    // x: yaw, y: pitch
+    rotation;
 
     constructor(camera) {
         this.camera = camera;
         this.camera.rotation.order = 'YXZ';
+        this.rotation = new THREE.Vector2();
     }
 
     sync() {
         const rotation = this.camera.rotation;
-        this.yaw = rotation.x * RAD2DEG;
-        this.pitch = rotation.y * RAD2DEG;
+        this.rotation.x = rotation.x * RAD2DEG;
+        this.rotation.y = rotation.y * RAD2DEG;
         console.log(rotation, this.pitch, this.yaw);
     }
 
-    set(pitch, yaw) {
+    set pitch(pitch) {
         this.camera.rotation.x = pitch;
+        this.rotation.x = pitch;
+    }
+
+    set yaw(yaw) {
         this.camera.rotation.y = yaw;
+        this.rotation.y = yaw;
+    }
+
+    get pitch() {
+        return this.rotation.x;
+    }
+
+    get yaw() {
+        return this.rotation.y;
+    }
+
+    set(pitch, yaw) {
         this.pitch = pitch;
         this.yaw = yaw;
     }

@@ -18,7 +18,8 @@ await init();
 Ticker.run();
 
 async function init() {
-    document.getElementById('canvas').appendChild(renderer.getRenderer().domElement);
+    const canvas = document.getElementById('canvas');
+    canvas.appendChild(renderer.getRenderer().domElement);
 
     const plane = createWater(64);
 
@@ -42,12 +43,12 @@ async function init() {
     PropertyManager.object("cube[2]", cube2);
 
     const light = renderer.getLight();
-    PropertyManager.register("light.position", (array) => {
-        light.position.fromArray(array);
+    PropertyManager.register("light.position", (property) => {
+        light.position.fromArray(property.value);
         GLOBAL.UNIFORM_DIRECTION_LIGHT.value.direction.copy(light.target.position).sub(light.position).normalize();
     });
-    PropertyManager.register("light.target", (array) => {
-        light.target.position.fromArray(array);
+    PropertyManager.register("light.target", (property) => {
+        light.target.position.fromArray(property.value);
         GLOBAL.UNIFORM_DIRECTION_LIGHT.value.direction.copy(light.target.position).sub(light.position).normalize();
     });
     PropertyManager.color("light.color", GLOBAL.UNIFORM_DIRECTION_LIGHT.value.color);
@@ -75,9 +76,9 @@ async function init() {
     PropertyManager.material("object");
     PropertyManager.material("water");
 
-    PropertyManager.register("speed", (v) => Ticker.setSpeed(v / 1000.0));
-    PropertyManager.register("water.Rotation", (v) => {
-        const rotation = v * DEG2RAD;
+    PropertyManager.register("speed", (property) => Ticker.setSpeed(property.value / 1000.0));
+    PropertyManager.register("water.Rotation", (property) => {
+        const rotation = property.value * DEG2RAD;
         let cos = Math.cos(rotation);
         let sin = Math.sin(rotation);
         water.uDirection.value.set(cos, sin);
@@ -98,6 +99,9 @@ async function init() {
     TEMPLATE.ACTIONS.set("journey", (t = 0.2) => apply("journey", t));
     TEMPLATE.ACTIONS.set("projects", (t = 0.2) => apply("projects", t));
 
+    const placeholder = document.getElementById("canvas-placeholder");
+    placeholder.remove();
+
     function apply(template, duration) {
         PropertyManager.applyTemplate(template, duration);
     }
@@ -117,7 +121,11 @@ function uploadUniformOperation(deltaTime) {
     PropertyManager.apply();
 }
 
-function test() {
+function test(deltaTime) {
+    if (InputSystem.isPressed("Control") && InputSystem.consume("S")) {
+        renderer.screenshot();
+    }
+
     if (InputSystem.consume("Enter")) {
         console.log(GLOBAL.WATER_UNIFORMS);
     }

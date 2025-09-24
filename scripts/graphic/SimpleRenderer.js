@@ -3,6 +3,9 @@ import * as THREE from '../libs/three/three.module.js'
 import * as GLOBAL from '../global.js'
 
 const RATIO = 0.5;
+const imgElement = new Image();
+document.body.appendChild(imgElement);
+const linkElement = document.createElement('a');
 
 export class SimpleRenderer {
     camera;
@@ -115,6 +118,18 @@ export class SimpleRenderer {
         this.renderer.setRenderTarget(null);
         this.renderer.clear();
         this.renderer.render(this.main, this.camera);
+
+        if (this.shouldScreenshot) {
+            const dataURL = this.renderer.domElement.toDataURL("image/png");
+
+            imgElement.src = dataURL;
+
+            const timestamp = new Date().getTime();
+            linkElement.href = dataURL;
+            linkElement.download = `screenshot-${timestamp}.png`;
+            linkElement.click();
+            this.shouldScreenshot = false;
+        }
     }
 
     addObject(object, renderType) {
@@ -128,6 +143,10 @@ export class SimpleRenderer {
             default:
                 throw "Invalid render type";
         }
+    }
+
+    screenshot() {
+        this.shouldScreenshot = true;
     }
 
     removeObject(object, renderType) {

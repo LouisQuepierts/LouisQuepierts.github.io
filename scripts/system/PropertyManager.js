@@ -24,7 +24,6 @@ export class Property {
 
     _value;
     _dirty;
-    _delegate;
 
     constructor(name, type, value, array) {
         this.name = name;
@@ -35,20 +34,35 @@ export class Property {
         this.isProperty = true;
         this.isArray = array || Array.isArray(value);
         this.isNumber = typeof value === 'number';
+        this.isCloneable = !this.isArray && !this.isNumber && 'clone' in value && 'copy' in value;
 
         Object.freeze(this.name);
         Object.freeze(this.type);
     }
 
     set value(v) {
-        if (this._value !== v) {
-            this._value = v;
-            this._dirty = true;
+        if (this.isArray && Array.isArray(v)) {
+            for (let i = 0; i < this._value.length; i++) {
+                if (!this._dirty && v[i] !== this._value[i]) {
+                    this._dirty = true;
+                }
+                this._value[i] = v[i];
+            }
+        } else if (this.isNumber) {
+            if (this._value !== v) {
+                this._value = v;
+                this._dirty = true;
+            }
+        } else if (this.isCloneable) {
+            if (!v.equals(this._value)) {
+                this._value.copy(v);
+                this._dirty = true;
+            }
         }
     }
 
     get value() {
-        return this._delegate ? this._delegate() : this._value;
+        return this._value;
     }
 
     get dirty() {
@@ -59,16 +73,12 @@ export class Property {
         this._dirty = true;
     }
 
-    bind(supplier) {
-        this._delegate = supplier;
-    }
-
     clone() {
         if (this.isArray) {
             return new Property(this.name, this.type, [...this._value], true);
         } else if (this.isNumber) {
             return new Property(this.name, this.type, this._value, false);
-        } else if ('clone' in this._value) {
+        } else if (this.isCloneable) {
             return new Property(this.name, this.type, this._value.clone(), false);
         }
         throw "Illegal clone operation";
@@ -81,12 +91,8 @@ export class Property {
             }
         } else if (this.isNumber && other.isNumber) {
             this._value = other._value;
-        } else if (this.type === other.type) {
-            if ('copy' in this._value) {
-                this._value.copy(other._value);
-            } else {
-                throw "Illegal target property type";
-            }
+        } else if (this.isCloneable && this.type === other.type) {
+            this._value.copy(other._value);
         } else {
             throw "Illegal target property type";
         }
@@ -187,17 +193,17 @@ class PropertyManager {
 
             if (p && u) {
                 if (Array.isArray(p.value)) {
-                    Tween.array(name, p, duration, u.value, property.value, LerpFunctions.curve);
+                    Tween.array(name, p, duration, u.value, property.value, LerpFunctions.ease);
                 } else {
                     switch (p.type) {
                         case "slider":
-                            Tween.number(name, p, duration, u.value, property.value, LerpFunctions.curve);
+                            Tween.number(name, p, duration, u.value, property.value, LerpFunctions.ease);
                             break;
                         case "color":
-                            Tween.rgb(name, p, duration, u.value, property.value, LerpFunctions.curve);
+                            Tween.rgb(name, p, duration, u.value, property.value, LerpFunctions.ease);
                             break;
                         case "vector":
-                            Tween.vector(name, p, duration, u.value, property.value, LerpFunctions.curve);
+                            Tween.vector(name, p, duration, u.value, property.value, LerpFunctions.ease);
                             break;
                     }
                 }
@@ -279,7 +285,7 @@ class PropertyManager {
     apply(force = false) {
         for (const [consumer, property] of bindings) {
             if (property.dirty || force) {
-                consumer(property.value);
+                consumer(property);
                 property._dirty = false;
             }
         }
@@ -316,30 +322,45 @@ class PropertyManager {
 
     vector(name, vec) {
         if ('x' in vec) {
-            this.register(name + "[0]", (value) => vec.x = value);
+            this.register(name + "[0]", (property) => vec.x = property.value);
         }
 
         if ('y' in vec) {
-            this.register(name + "[1]", (value) => vec.y = value);
+            this.register(name + "[1]", (property) => vec.y = property.value);
         }
 
         if ('z' in vec) {
-            this.register(name + "[2]", (value) => vec.z = value);
+            this.register(name + "[2]", (property) => vec.z = property.value);
         }
 
         if ('w' in vec) {
-            this.register(name + "[3]", (value) => vec.w = value);
+            this.register(name + "[3]", (property) => vec.w = property.value);
         }
 
-        this.register(name, (value) => vec.fromArray(value));
+        this.register(name, (property) => {
+            if (property.isCloneable) {
+                vec.copy(property.value);
+            } else if (property.isArray) {
+                vec.fromArray(property.value);
+            }
+        });
     }
 
     color(name, col) {
-        this.register(name, (value) => col.set(value));
+        this.register(name, (property) => {
+            if (property.isCloneable) {
+                col.copy(property.value);
+            } else if (property.isArray) {
+                col.fromArray(property.value);
+            } else {
+                col.set(property.value);
+            }
+        });
     }
 
     angle(name, euler) {
-        this.register(name, (value) => {
+        this.register(name, (property) => {
+            const value = property.value;
             euler.set(
                 value[0] * DEG2RAD,
                 value[1] * DEG2RAD,
@@ -371,7 +392,7 @@ class PropertyManager {
     uniform(name, u) {
         const value = u.value;
         if (typeof value === 'number') {
-            this.register(name, (value) => u.value = value);
+            this.register(name, (property) => u.value = property.value);
         } else if (value.isColor) {
             this.color(name, value);
         } else if (typeof value.fromArray === 'function') {

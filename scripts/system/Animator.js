@@ -65,4 +65,8 @@ export class LerpFunctions {
         const sqr = input * input;
         return 3 * sqr - 2 * sqr * input;
     }
+
+    static ease(input) {
+        return input < 0.5 ? 2 * input * input : 1 - Math.pow(-2 * input + 2, 2) / 2;
+    }
 }

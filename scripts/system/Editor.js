@@ -9,6 +9,8 @@ const editorElement = document.getElementById("editor");
 const contentElement = document.createElement("div");
 const inputElement = document.getElementById("input");
 
+let renderer;
+
 editorElement.appendChild(contentElement);
 
 let nameInput = document.createElement("input");
@@ -33,6 +35,17 @@ loadButton.onclick = () => {
 };
 editorElement.appendChild(loadButton);
 
+let screenshotButton = document.createElement("button");
+screenshotButton.innerText = "Screenshot";
+screenshotButton.onclick = () => {
+    if (!renderer) {
+        return;
+    }
+
+    renderer.screenshot();
+}
+editorElement.appendChild(screenshotButton);
+
 inputElement.addEventListener("change", (e) => {
     if (inputElement.files.length > 0) {
         const file = inputElement.files[0];
@@ -53,6 +66,10 @@ let options = new Map();
 let hidden = false;
 
 export class Editor {
+    static setRenderer(r) {
+        renderer = r;
+    }
+
     static tick() {
         if (InputSystem.consume('e')) {
             hidden = !hidden;
@@ -130,6 +147,7 @@ export class Editor {
         a.click();
 
         URL.revokeObjectURL(url);
+        a.remove();
     }
 
     static load(configuration) {
