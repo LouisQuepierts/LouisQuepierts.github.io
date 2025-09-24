@@ -25,6 +25,7 @@ const transitionStyle = 'top 0.3s ease, transform 0.3s ease, background-color 0.
 document.addEventListener('DOMContentLoaded', function() {
     const dots = document.querySelectorAll('.dot');
     const sections = document.querySelectorAll('section');
+    const container = document.querySelector(".scroll-container");
 
     const timeline = document.getElementById('timeline-nav');
     const pointer = document.getElementById('timeline-pointer');
@@ -134,14 +135,14 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     // Highlight active dot based on scroll position
-    window.addEventListener('scroll', (e) => {
+    container.addEventListener('scroll', (e) => {
         // updateBackground();
         if (moveTarget) {
 
             const section = moveTarget.section;
             const sectionTop = section.offsetTop;
 
-            const distance = Math.abs(scrollY - sectionTop);
+            const distance = Math.abs(container.scrollTop - sectionTop);
 
             if (distance < 1) {
                 moveTarget = null;
@@ -152,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         movePointerToSection();
     });
 
-    window.addEventListener('scrollend', (e) => {
+    container.addEventListener('scrollend', (e) => {
         moveTarget = null;
         movePointerToSection();
     })
@@ -199,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const section = entry.section;
             const sectionTop = section.offsetTop;
 
-            if (scrollY >= sectionTop - 30) {
+            if (container.scrollTop >= sectionTop - 50) {
                 current = entry;
             }
         })
@@ -226,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const action = ACTIONS.get(targetId);
         if (action) {
-            action();
+            action(0.2);
         }
 
         movePointer(dot, direct);
@@ -244,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
 
-            if (scrollY >= (sectionTop - sectionHeight / 3)) {
+            if (container.scrollTop >= (sectionTop - sectionHeight / 3)) {
                 current = entry;
             }
         })
