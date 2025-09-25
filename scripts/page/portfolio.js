@@ -1,18 +1,41 @@
-import * as THREE from '../libs/three/three.module.js'
+import * as THREE from "../libs/three/three.module.js"
 import * as GLOBAL from "../global.js";
 import * as TEMPLATE from "../templates.js"
+import * as Tween from "../system/Tween.js"
 
 import Ticker from "../system/Ticker.js";
 import PropertyManager from "../system/PropertyManager.js";
 import InputSystem from "../system/InputSystem.js";
 import {SimpleRenderer, RenderType} from "../graphic/SimpleRenderer.js";
 import {CameraController} from "../system/CameraController.js";
+import {Animation, LerpFunctions} from "../system/Animator.js";
 
 const DEG2RAD = Math.PI / 180;
 const RAD2DEG = 180 / Math.PI;
 
 const renderer = new SimpleRenderer(window);
 const controller = new CameraController(renderer.getCamera());
+
+const cameraRotation = {
+    base: new THREE.Vector2(-35.264 * DEG2RAD, 45 * DEG2RAD),
+    shift: new THREE.Vector2(0, 0),
+    target: new THREE.Vector2()
+}
+
+let isMouseInside = false;
+
+document.addEventListener("mouseleave", () => {
+    // do later
+    Tween.wait("camera.wait", () => {
+        cameraRotation.target.set(0, 0);
+    }, 0.5)
+    isMouseInside = false;
+});
+
+document.addEventListener("mouseenter", () => {
+    Tween.cancel("camera.wait");
+    isMouseInside = true;
+});
 
 await init();
 Ticker.run();
@@ -89,7 +112,7 @@ async function init() {
 
     // Ticker.addOperation(() => InputSystem.tick())
     // Ticker.addOperation(() => controller.tick());
-    Ticker.addOperation(uploadUniformOperation);
+    Ticker.addOperation(update);
     Ticker.addOperation(test);
     Ticker.addOperation(() => renderer.render());
     Ticker.tps = 30;
@@ -115,8 +138,35 @@ function createWater(size) {
     );
 }
 
-function uploadUniformOperation(deltaTime) {
+function update(deltaTime) {
     GLOBAL.UNIFORM_TIME.value += deltaTime;
+
+    const mouse = InputSystem.consumeMouse();
+    if (isMouseInside && mouse.changed) {
+        cameraRotation.target.x = (window.innerWidth * 0.5 - mouse.position.x);
+        cameraRotation.target.y = (window.innerHeight * 0.5 - mouse.position.y);
+    }
+
+    let updateCamera = false;
+    const d2 = cameraRotation.shift.distanceToSquared(cameraRotation.target);
+    if (d2 > 9.43) {
+        cameraRotation.shift.lerp(cameraRotation.target, deltaTime * 9.43);
+        updateCamera = true;
+    } else if (!cameraRotation.shift.equals(cameraRotation.target)) {
+        cameraRotation.shift.copy(cameraRotation.target);
+        updateCamera = true;
+    }
+
+    if (updateCamera) {
+        controller.set(
+            cameraRotation.base.x + cameraRotation.shift.y * 0.005 * DEG2RAD,
+            cameraRotation.base.y + cameraRotation.shift.x * 0.005 * DEG2RAD
+        );
+
+        const camera = controller.camera;
+        camera.updateMatrixWorld();
+        GLOBAL.UNIFORM_INVERSE_VIEW_MATRIX.value.copy(camera.matrixWorld);
+    }
 
     PropertyManager.apply();
 }
@@ -127,6 +177,6 @@ function test(deltaTime) {
     }
 
     if (InputSystem.consume("Enter")) {
-        console.log(GLOBAL.WATER_UNIFORMS);
+        console.log(cameraRotation);
     }
 }

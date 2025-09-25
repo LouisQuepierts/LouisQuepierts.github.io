@@ -248,7 +248,9 @@ class PropertyManager {
                     value = [...item.value];
                     break;
             }
-            setProperty(dest, name, type, value);
+            if (value) {
+                setProperty(dest, name, type, value);
+            }
         }
 
         for (let [arrayName, arrayElement] of arrayLike.entries()) {

@@ -43,8 +43,13 @@ export class CameraController {
     }
 
     set(pitch, yaw) {
-        this.pitch = pitch;
-        this.yaw = yaw;
+        if (pitch.isVector2) {
+            this.pitch = pitch.x;
+            this.yaw = pitch.y;
+        } else {
+            this.pitch = pitch;
+            this.yaw = yaw;
+        }
     }
 
     tick() {
@@ -86,8 +91,8 @@ export class CameraController {
             const mouse = InputSystem.consumeMouse();
 
             if (mouse.changed) {
-                this.pitch -= mouse.y * 0.005;
-                this.yaw -= mouse.x * 0.005;
+                this.pitch -= mouse.delta.y * 0.005;
+                this.yaw -= mouse.delta.x * 0.005;
 
                 this.pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, this.pitch));
                 this.yaw %= Math.PI * 2;

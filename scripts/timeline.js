@@ -1,8 +1,5 @@
-import * as Tween from "./system/Tween.js"
-
-import {clamp, smoothstep} from "./math.js";
+import {clamp} from "./math.js";
 import {ACTIONS} from "./templates.js";
-import PropertyManager from "./system/PropertyManager.js"
 
 let pointerInit = false;
 let pressed;
@@ -101,6 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        const pointerCenter = pointerY + pRect.height / 2;
+
         pointer.style.transition = transitionStyle;
         pointer.classList.remove('pressed')
         timeline.classList.remove('pressed');
@@ -112,7 +111,8 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let entry of entries) {
             const dot = entry.dot;
             const dRect = dot.getBoundingClientRect();
-            const abs = Math.abs(dRect.top - pointerY);
+            const dRectCenter = dRect.top + dRect.height / 2;
+            const abs = Math.abs(dRectCenter - pointerCenter);
 
             if (abs < delta) {
                 delta = abs;
