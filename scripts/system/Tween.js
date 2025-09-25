@@ -1,11 +1,19 @@
 
 import * as THREE from "../libs/three/three.module.js";
 
-import { Animator, Animation, LerpFunctions } from "./Animator.js";
+import {Animator, Animation, LerpFunctions, WaitAnimation} from "./Animator.js";
 import Ticker from "./Ticker.js";
 
-const ANIMATOR = new Animator();
+export const ANIMATOR = new Animator();
 Ticker.addOperation((delta) => ANIMATOR.tick(delta));
+
+export function cancel(name) {
+    ANIMATOR.stop(name);
+}
+
+export function wait(name, callback, time) {
+    ANIMATOR.play(name, new WaitAnimation(time, callback));
+}
 
 export function rgb(name, target, duration, from, to, lerpFunction = LerpFunctions.simple) {
     let interpolator;

@@ -15,6 +15,10 @@ export class Animator {
         }
     }
 
+    stop(name) {
+        this.animations.delete(name);
+    }
+
     tick(delta) {
         const done = [];
         for (const [key, animation] of this.animations) {
@@ -30,14 +34,40 @@ export class Animator {
     }
 }
 
-export class Animation {
+export class BaseAnimation {
     duration;
-    timer;
-
     action;
+
+    timer = 0.0;
+
+    constructor(duration, action) {
+        this.duration = duration;
+        this.action = action;
+    }
+
+    isDone() {
+        return this.timer > this.duration;
+    }
+}
+
+export class WaitAnimation extends BaseAnimation{
+    constructor(duration, action) {
+        super(duration, action);
+    }
+
+    tick(delta) {
+        this.timer += delta;
+        if (this.timer >= this.duration) {
+            this.action();
+        }
+    }
+}
+
+export class Animation extends BaseAnimation {
     lerp;
 
     constructor(duration, action, lerp = LerpFunctions.simple) {
+        super(duration, action);
         this.duration = duration;
         this.timer = 0;
         this.lerp = lerp;
@@ -49,10 +79,6 @@ export class Animation {
         this.timer += delta;
         const innerDelta = this.timer >= this.duration ? 1.0 : clamp(this.lerp(this.timer / this.duration), 0.0, 1.0);
         this.action(innerDelta);
-    }
-
-    isDone() {
-        return this.timer > this.duration;
     }
 }
 
