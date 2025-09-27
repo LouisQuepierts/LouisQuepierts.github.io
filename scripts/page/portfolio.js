@@ -41,9 +41,6 @@ await init();
 Ticker.run();
 
 async function init() {
-    const canvas = document.getElementById('canvas');
-    canvas.appendChild(renderer.getRenderer().domElement);
-
     const plane = createWater(64);
 
     plane.position.y = 0;
@@ -122,8 +119,14 @@ async function init() {
     TEMPLATE.ACTIONS.set("journey", (t = 0.2) => apply("journey", t));
     TEMPLATE.ACTIONS.set("projects", (t = 0.2) => apply("projects", t));
 
-    const placeholder = document.getElementById("canvas-placeholder");
-    placeholder.remove();
+
+    const canvas = document.getElementById('canvas');
+    canvas.classList.add("show");
+    canvas.appendChild(renderer.getRenderer().domElement);
+    canvas.addEventListener("transitionend", () => {
+        const placeholder = document.getElementById("canvas-placeholder");
+        placeholder.remove();
+    }, {once: true})
 
     function apply(template, duration) {
         PropertyManager.applyTemplate(template, duration);
