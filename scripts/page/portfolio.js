@@ -8,7 +8,7 @@ import PropertyManager from "../system/PropertyManager.js";
 import InputSystem from "../system/InputSystem.js";
 import {SimpleRenderer, RenderType} from "../graphic/SimpleRenderer.js";
 import {CameraController} from "../system/CameraController.js";
-import {Timeline} from "../timeline.js"
+import {Timeline} from "../Timeline.js"
 import {PageManager} from "../PageManager.js";
 
 const DEG2RAD = Math.PI / 180;
