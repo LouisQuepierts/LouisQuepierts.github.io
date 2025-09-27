@@ -63,7 +63,7 @@ export class PageManager {
     }
 
     set page(pageID) {
-        this.goto(pageID, 0.2);
+        this.goto(pageID, 0.5);
     }
 
     set onchange(callback) {
