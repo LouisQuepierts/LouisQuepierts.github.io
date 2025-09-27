@@ -11,13 +11,10 @@
 </head>
 <body>
     <div style="position: fixed;">
-<!--        <img src="./images/background.png" id="canvas-placeholder" style="width: 200vh; height: 100vh; position: fixed;" alt="background">-->
         <div id="canvas"></div>
     </div>
     <input type="file" id="input" style="display: none;" accept=".json,application/json" />
 
-    <div class="scroll-container">
-    <div class="nav-pointer" id="timeline-pointer"></div>
     <div class="nav-timeline" id="timeline-nav">
         <div class="track"></div>
         <div class="dot" data-section="Home" data-target="home"></div>
@@ -25,6 +22,9 @@
         <div class="dot" data-section="Journey" data-target="journey"></div>
         <div class="dot" data-section="Projects" data-target="projects"></div>
     </div>
+
+    <div class="scroll-container">
+    <div class="inner">
 
     <!-- Home/Hero Section -->
     <section id="home" class="section">
@@ -44,7 +44,7 @@
             <h2>About Me</h2>
             <p>A game developer in formation, currently studying Software Engineering at Guangdong University of Foreign Studies (expected 2026). Early experimentation with Minecraft mods and the recreation of mechanics from other games sparked an enduring curiosity about the relationship between code, design, and human experience.</p>
             <p>Game creation is approached not merely as a technical or visual endeavor, but as a medium for exploring aesthetics, interaction, and the essence of human connection. Projects such as ThatSkyInteractions Mod (TeaCon award-winning), Phos, and other prototypes serve as platforms to investigate how subtle mechanics, environmental design, and player interaction shape emotional resonance.</p>
-            <p>Beyond development, engagement with music production (FL Studio), 3D design (Blender/BlockBench), and linguistic exploration (Japanese) reflects a belief that diverse creative practices enrich the potential of interactive media. The long-term vision centers on establishing a studio where technology, artistry, and philosophy converge, while continuing to experiment, collaborate, and expand the expressive boundaries of games.</p>
+<!--            <p>Beyond development, engagement with music production (FL Studio), 3D design (Blender/BlockBench), and linguistic exploration (Japanese) reflects a belief that diverse creative practices enrich the potential of interactive media. The long-term vision centers on establishing a studio where technology, artistry, and philosophy converge, while continuing to experiment, collaborate, and expand the expressive boundaries of games.</p>-->
         </div>
     </section>
 
@@ -166,9 +166,8 @@
         </div>
     </section>
     </div>
-
+    </div>
 </body>
-<script type="module" src="scripts/timeline.js"></script>
 <script type="module" src="scripts/page/portfolio.js"></script>
 </html>
     

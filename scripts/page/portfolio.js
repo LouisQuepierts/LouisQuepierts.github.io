@@ -8,7 +8,8 @@ import PropertyManager from "../system/PropertyManager.js";
 import InputSystem from "../system/InputSystem.js";
 import {SimpleRenderer, RenderType} from "../graphic/SimpleRenderer.js";
 import {CameraController} from "../system/CameraController.js";
-import {Animation, LerpFunctions} from "../system/Animator.js";
+import {Timeline} from "../timeline.js"
+import {PageManager} from "../PageManager.js";
 
 const DEG2RAD = Math.PI / 180;
 const RAD2DEG = 180 / Math.PI;
@@ -39,6 +40,16 @@ document.addEventListener("mouseenter", () => {
 
 await init();
 Ticker.run();
+
+const elTimeline = document.getElementById("timeline-nav");
+const elContainer = document.querySelector(".scroll-container");
+
+const elInner = elContainer.querySelector(".inner");
+if (elInner) {
+    console.log("elInner");
+    const manager = new PageManager(elInner, 1.0);
+    const timeline = new Timeline(elTimeline, manager);
+}
 
 async function init() {
     const plane = createWater(64);
@@ -119,14 +130,9 @@ async function init() {
     TEMPLATE.ACTIONS.set("journey", (t = 0.2) => apply("journey", t));
     TEMPLATE.ACTIONS.set("projects", (t = 0.2) => apply("projects", t));
 
-
     const canvas = document.getElementById('canvas');
     canvas.classList.add("show");
     canvas.appendChild(renderer.getRenderer().domElement);
-    canvas.addEventListener("transitionend", () => {
-        const placeholder = document.getElementById("canvas-placeholder");
-        placeholder.remove();
-    }, {once: true})
 
     function apply(template, duration) {
         PropertyManager.applyTemplate(template, duration);

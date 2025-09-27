@@ -1,7 +1,7 @@
 
 class Ticker {
     timer = 0.0;
-    deltaTimer = 0.0;
+    fixedDelta = 0.0;
     speed = 0.01;
 
     stopped = false;
@@ -17,7 +17,7 @@ class Ticker {
         }
 
         this.timer += this.speed;
-        this.deltaTimer += this.speed;
+        this.fixedDelta += this.speed;
 
         const time = performance.now();
         const delta = time - this.lastTime;
@@ -25,10 +25,10 @@ class Ticker {
             this.lastTime = time;
 
             for (let entry of this.operations) {
-                entry.operation(this.deltaTimer);
+                entry.operation(this.fixedDelta);
             }
 
-            this.deltaTimer = 0.0;
+            this.fixedDelta = 0.0;
         }
 
         requestAnimationFrame(() => this.run());
