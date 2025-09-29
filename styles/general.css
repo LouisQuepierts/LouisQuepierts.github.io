@@ -90,12 +90,16 @@ section {
     &::-webkit-scrollbar-thumb {
         display: none;
     }
+
+    &.center {
+        justify-content: center;
+    }
 }
 
 .section-content {
     max-width: 1000px;
     width: 94.3%;
-    padding: 4rem;
+    padding: 4rem 4rem;
     background: rgba(51, 34, 17, 0.4);
     backdrop-filter: blur(4px);
 }

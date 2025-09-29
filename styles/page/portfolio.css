@@ -87,6 +87,7 @@ body {
     color: #fff;
     margin-bottom: 1.5rem;
     font-size: 1.1rem;
+    text-align: center;
 }
 
 @media (max-width: 768px) {
@@ -107,6 +108,13 @@ body {
 #journey {
     position: relative;
     color: white;
+}
+
+#journey p {
+    color: #fff;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    text-align: center;
 }
 
 .footprint {

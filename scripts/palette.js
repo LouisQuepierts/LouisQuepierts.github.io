@@ -3,7 +3,3 @@ const palette = {
 
     }
 }
-
-export function applyPalette(name) {
-    
-}

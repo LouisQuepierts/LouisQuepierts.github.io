@@ -75,6 +75,12 @@
     }
 }
 
+.non-select {
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
 /* Responsive Timeline */
 @media (max-width: 768px) {
     .nav-timeline {
