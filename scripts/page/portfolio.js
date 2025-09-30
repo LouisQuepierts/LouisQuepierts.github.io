@@ -10,6 +10,7 @@ import {SimpleRenderer, RenderType} from "../graphic/SimpleRenderer.js";
 import {CameraController} from "../system/CameraController.js";
 import {Timeline} from "../Timeline.js"
 import {PageManager} from "../PageManager.js";
+import * as Tooltip from "../tooltip.js"
 
 const DEG2RAD = Math.PI / 180;
 const RAD2DEG = 180 / Math.PI;
@@ -21,6 +22,11 @@ const cameraRotation = {
     base: new THREE.Vector2(-35.264 * DEG2RAD, 45 * DEG2RAD),
     shift: new THREE.Vector2(0, 0),
     target: new THREE.Vector2()
+}
+
+const dictionary = {
+    "Weavers": "Game developer",
+    "monk in red": "Character from \"Journey\""
 }
 
 let isMouseInside = false;
@@ -38,9 +44,6 @@ document.addEventListener("mouseenter", () => {
     isMouseInside = true;
 });
 
-await init();
-Ticker.run();
-
 const elTimeline = document.getElementById("timeline-nav");
 const elContainer = document.querySelector(".scroll-container");
 
@@ -50,6 +53,11 @@ if (elInner) {
     const manager = new PageManager(elInner, 1.0);
     const timeline = new Timeline(elTimeline, manager);
 }
+
+Tooltip.inject(dictionary);
+Ticker.run();
+
+await init();
 
 async function init() {
     const plane = createWater(64);
@@ -132,7 +140,9 @@ async function init() {
 
     const canvas = document.getElementById('canvas');
     canvas.classList.add("show");
-    canvas.appendChild(renderer.getRenderer().domElement);
+    const glCanvas = renderer.getRenderer().domElement;
+    glCanvas.id = "bg-canvas";
+    canvas.appendChild(glCanvas);
 
     function apply(template, duration) {
         PropertyManager.applyTemplate(template, duration);
