@@ -70,28 +70,22 @@ void main() {
 
     float lightDot = dot(uDirectionalLight.direction, vFlatNormal);
     vec3 diffuse = mix(uSurfaceColor, uDarkerColor, clamp(lightDot / 2.0 + 0.5, 0.0, 1.0));
-//    diffuse = mix(diffuse, uLighterColor, smoothstep(0.75, 1.0, lightDot));
     float blinn = diff + specular;
     diffuse = mix(diffuse, uDirectionalLight.color, blinn * uSpecularStrength);
 
     vec4 worldPos = depth2world(vScreenPos.xy);
     float deltaHeight = vWorldPos.y - worldPos.y;
     float height = smoothstep(0.0, 10.0 * uDeepFactor, deltaHeight);
+    float surface = step(deltaHeight, -0.01);
 
     float foamNoise = texture(uFoamNoise, worldPos.xz * uFoamNoiseScale + uTime * uFoamNoiseSpeed).r;
     float amplified = foamNoise * uFoamNoiseAmplifier;
     float foamHeight = deltaHeight + amplified - uFoamNoiseAmplifier / 2.0;
-    float foam = step(foamHeight, uFoamWidth);
-//    float alpha = step(height, uFoamWidth) * step(foamNoise, 0.5);
+    float foam = step(foamHeight, uFoamWidth) * (1.0 - surface);
 
-    vec3 color = mix(uDeeperColor, diffuse, height * 0.5 + 0.5);
+    vec3 color = mix(uDeeperColor, diffuse, max((height * 0.5 + 0.5), surface));
     color = mix(color, uFoamColor, foam);
 
-
-//    color = vec3(blinn);
-
-    float clip = step(uFoamNoiseAmplifier / 2.0, foamHeight);
-//    if (clip == 0.0) discard;
-
+    float clip = max(step(uFoamNoiseAmplifier / 2.0, foamHeight), surface);
     gl_FragColor = vec4(color, clip);
 }
